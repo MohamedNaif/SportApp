@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
+import '../global/main_scrren.dart';
 import 'home_page.dart';
+import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,12 +20,12 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 4), () {
       // context.read<NewsAppCubit>().getNewsApp();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: ((context) => HomePage()),
+          builder: ((context) => ONBoardingScreen()),
         ),
       );
     });
@@ -33,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 image:
                     AssetImage('assets/1eb5deb4eb282a73c3703b5ede9ff53a.jpeg'),
@@ -41,10 +43,10 @@ class _SplashScreenState extends State<SplashScreen>
         child: Stack(
           children: [
             Container(
-              color: Color.fromARGB(234, 36, 37, 57),
+              color: const Color.fromARGB(234, 36, 37, 57),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                 image: AssetImage(
                     'assets/depositphotos_471071128-stock-illustration-atletico-madrid-blue-gradient-vector-removebg-preview.png'),

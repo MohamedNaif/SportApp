@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:myapp/cubit/OnBoardingConroller/on_boarding_controller_cubit.dart';
 import 'package:myapp/screens/splash_screen.dart';
 import 'package:bloc/bloc.dart';

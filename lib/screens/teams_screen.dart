@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:myapp/data/cubit/TeamsCubit/teams_cubit.dart';
 import 'package:myapp/screens/playres_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-class ALeagueScreen extends StatelessWidget {
-  final String leagueName;
+class Teams extends StatelessWidget {
+  final int leagueKey ;
 
-  const ALeagueScreen({
-    Key? key,
-    required this.leagueName,
-  }) : super(key: key);
+  Teams({required this.leagueKey}) ;
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +13,12 @@ class ALeagueScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(24, 25, 40, 1),
-          title: Text('La Liga'),
-          bottom: TabBar(
+          backgroundColor: const Color.fromRGBO(24, 25, 40, 1),
+          title: const Text('La Liga'),
+          bottom: const TabBar(
             tabs: [
-              Tab(text: 'Top Scorers'),
               Tab(text: 'Teams'),
+              Tab(text: 'Top Scorers' , ),
             ],
           ),
         ),
@@ -30,14 +27,14 @@ class ALeagueScreen extends StatelessWidget {
             // Overview screen
             Container(
               color: Colors.white,
-              child: Center(
-                child: Text('Overview screen'),
+              child:  Center(
+                child:  TeamsScreen(leagueKey : leagueKey),
               ),
             ),
             // Teams screen
-            TeamsScreen(),
+            
             // Top Scorers screen
-            TopScorersScreen(),
+            const TopScorersScreen(),
           ],
         ),
       ),
@@ -46,19 +43,24 @@ class ALeagueScreen extends StatelessWidget {
 }
 
 class TeamsScreen extends StatelessWidget {
-  const TeamsScreen({Key? key}) : super(key: key);
+  final int leagueKey ;
+  const TeamsScreen(  {required this.leagueKey});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController? search = TextEditingController(text:  "" ) ;
     return Scaffold(
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: TextField(
+              controller: search ,
               decoration: InputDecoration(
                 hintText: 'Search for a team',
-                prefixIcon: Icon(Icons.search),
+                suffixIcon: InkWell(
+                  onTap: () => context.read<TeamsCubit>().getTeams( leagueKey , search.text ),
+                  child: const Icon(Icons.search)),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -71,19 +73,19 @@ class TeamsScreen extends StatelessWidget {
                 if ( state is TeamsSucceed){
                 return GridView.builder(
                   itemCount: state.teamsData.result!.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
                   itemBuilder: (context, index) => TeamCard(teamName: state.teamsData.result![index].teamName ?? ""),     
                   
                 );
                 }
                 else if ( state is TeamsLoading) {
-                  return Center(
+                  return const Center(
                     child : CircularProgressIndicator() 
                   );
                 }
                 else {
-                  return Center(child: Text("Error"),) ;
+                  return const Center(child: Text("NO Result" , style: TextStyle(fontSize: 30 , fontWeight: FontWeight.w700),),) ;
                 }
               },
             ),
@@ -101,15 +103,15 @@ class TopScorersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Top Scorers'),
+        title: const Text('Top Scorers'),
       ),
       body: ListView(
         children: [
           // Add top scorer cards here
-          TopScorerCard(playerName: 'Player 1', goalsScored: 20),
-          TopScorerCard(playerName: 'Player 2', goalsScored: 18),
-          TopScorerCard(playerName: 'Player 3', goalsScored: 15),
-          TopScorerCard(playerName: 'Player 4', goalsScored: 12),
+          const TopScorerCard(playerName: 'Player 1', goalsScored: 20),
+          const TopScorerCard(playerName: 'Player 2', goalsScored: 18),
+          const TopScorerCard(playerName: 'Player 3', goalsScored: 15),
+          const TopScorerCard(playerName: 'Player 4', goalsScored: 12),
         ],
       ),
     );
@@ -127,11 +129,11 @@ class TeamCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: Center(
         child: Text(
           teamName,
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         ),
       ),
     );
@@ -151,7 +153,7 @@ class TopScorerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.sports_soccer),
+      leading: const Icon(Icons.sports_soccer),
       title: Text(playerName),
       subtitle: Text('$goalsScored goals'),
     );

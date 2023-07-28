@@ -33,7 +33,7 @@ class CountriesScreen extends StatelessWidget {
                     crossAxisCount: 2),
                 itemBuilder: (context, index) => InkWell(
                   onTap: () {
-                    context.read<LeaguesCubit>().getLeaguesData();
+                    context.read<LeaguesCubit>().getLeaguesData(state.countriesData.result![index].countryKey!);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -8,10 +8,10 @@ part 'leagues_state.dart';
 class LeaguesCubit extends Cubit<LeaguesState> {
   LeaguesCubit() : super(LeaguesInitial());
 
-  getLeaguesData() async {
+  getLeaguesData(int countryId) async {
     emit(LeaguesLoading());
 
-    LeaguesRepo().getLeaguesData().then((value) {
+    LeaguesRepo().getLeaguesDataRepo(countryId: countryId ).then((value) {
       if (value != null) {
         emit(LeaguesSucceed(leaguesData: value));
       } else {

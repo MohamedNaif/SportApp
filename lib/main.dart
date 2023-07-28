@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => TeamsCubit()),    
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner:false,
         home: ONBoardingScreen(),
       ),
     );

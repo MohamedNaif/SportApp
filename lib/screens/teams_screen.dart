@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/data/cubit/TeamsCubit/teams_cubit.dart';
 import 'package:myapp/screens/playres_screen.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 class ALeagueScreen extends StatelessWidget {
   final String leagueName;
 
@@ -65,26 +66,26 @@ class TeamsScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              children: [
-                // Add team cards here
-                InkWell(
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: ((context) => PlayerScreen(team: ,
-
-                    //         )),
-                    //   ),
-                    // );
-                    //   },
-                    child: TeamCard(teamName: 'Team 1')),
-                TeamCard(teamName: 'Team 2'),
-                TeamCard(teamName: 'Team 3'),
-                TeamCard(teamName: 'Team 4'),
-              ],
+            child: BlocBuilder<TeamsCubit, TeamsState>(
+              builder: (context, state) {
+                if ( state is TeamsSucceed){
+                return GridView.builder(
+                  itemCount: state.teamsData.result!.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemBuilder: (context, index) => TeamCard(teamName: state.teamsData.result![index].teamName ?? ""),     
+                  
+                );
+                }
+                else if ( state is TeamsLoading) {
+                  return Center(
+                    child : CircularProgressIndicator() 
+                  );
+                }
+                else {
+                  return Center(child: Text("Error"),) ;
+                }
+              },
             ),
           ),
         ],

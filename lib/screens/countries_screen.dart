@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:myapp/data/cubit/CountriesCubit/countries_cubit.dart';
+import 'package:myapp/data/cubit/LeaguesCubit/leagues_cubit.dart';
+import 'package:myapp/data/model/CountriesModel/countries_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/data/repo/LeaguesRepo/leagues_repo.dart';
 import 'leagues_screen.dart';
 
 class CountriesScreen extends StatelessWidget {
@@ -13,125 +17,169 @@ class CountriesScreen extends StatelessWidget {
         title: Text('Countries'),
       ),
       body: Container(
-        color: const Color.fromRGBO(24, 25, 40, 1),
-        child: GridView.count(
-          crossAxisCount: 2,
-          children: const [
-            CountryCard(
-              imagePath: 'assets/images (1).jpeg',
-              countryName: 'USA',
-            ),
-            CountryCard(
-              imagePath: 'assets/images (1).jpeg',
-              countryName: 'UK',
-            ),
-            CountryCard(
-              imagePath: 'assets/images (1).jpeg',
-              countryName: 'France',
-            ),
-            CountryCard(
-              imagePath: 'assets/images (1).jpeg',
-              countryName: 'Germany',
-            ),
-            CountryCard(
-              imagePath: 'assets/images (1).jpeg',
-              countryName: 'Italy',
-            ),
-            CountryCard(
-              imagePath: 'assets/images (1).jpeg',
-              countryName: 'Spain',
-            ),
-            CountryCard(
-              imagePath: 'assets/images (1).jpeg',
-              countryName: 'Spain',
-            ),
-            CountryCard(
-              imagePath: 'assets/images (1).jpeg',
-              countryName: 'Spain',
-            ),
-            CountryCard(
-              imagePath: 'assets/images (1).jpeg',
-              countryName: 'Spain',
-            ),
-            CountryCard(
-              imagePath: 'assets/images (1).jpeg',
-              countryName: 'Spain',
-            ),
-          ],
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.blueGrey,
+        child: BlocBuilder<CountriesCubit, CountriesState>(
+          builder: (context, state) {
+            if (state is CountriesError) {
+              return Center(
+                child: Text(" Error "),
+              );
+            } else if (state is CountriesSucceed) {
+              return GridView.builder(
+                itemCount: state.countriesData.result!.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () {
+                    context.read<LeaguesCubit>().getLeaguesData();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LeaguesScreen(),
+                        ));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(state
+                                    .countriesData.result![index].countryLogo ??
+                                "assets/style.jpg"))),
+                    child: Center(
+                      child:
+                          Text(state.countriesData.result![index].countryName!),
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
         ),
       ),
     );
   }
 }
 
-class CountryCard extends StatelessWidget {
-  final String imagePath;
-  final String countryName;
+// body: Container(
+//         color: const Color.fromRGBO(24, 25, 40, 1),
+//         child: GridView.count(
+//           crossAxisCount: 2,
+//           children: const [
+//             CountryCard(
+//               imagePath: 'assets/images (1).jpeg',
+//               countryName: 'USA',
+//             ),
+//             CountryCard(
+//               imagePath: 'assets/images (1).jpeg',
+//               countryName: 'UK',
+//             ),
+//             CountryCard(
+//               imagePath: 'assets/images (1).jpeg',
+//               countryName: 'France',
+//             ),
+//             CountryCard(
+//               imagePath: 'assets/images (1).jpeg',
+//               countryName: 'Germany',
+//             ),
+//             CountryCard(
+//               imagePath: 'assets/images (1).jpeg',
+//               countryName: 'Italy',
+//             ),
+//             CountryCard(
+//               imagePath: 'assets/images (1).jpeg',
+//               countryName: 'Spain',
+//             ),
+//             CountryCard(
+//               imagePath: 'assets/images (1).jpeg',
+//               countryName: 'Spain',
+//             ),
+//             CountryCard(
+//               imagePath: 'assets/images (1).jpeg',
+//               countryName: 'Spain',
+//             ),
+//             CountryCard(
+//               imagePath: 'assets/images (1).jpeg',
+//               countryName: 'Spain',
+//             ),
+//             CountryCard(
+//               imagePath: 'assets/images (1).jpeg',
+//               countryName: 'Spain',
+//             ),
+//           ],
+//         ),
+//       ),
 
-  const CountryCard({
-    Key? key,
-    required this.imagePath,
-    required this.countryName,
-  }) : super(key: key);
+// class CountryCard extends StatelessWidget {
+//   final String imagePath;
+//   final String countryName;
 
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: ((context) => LeaguesScreen(
-                  countryName: '',
-                  leagues: [],
-                )),
-          ),
-        );
-      },
-      child: Card(
-        margin: EdgeInsets.all(15),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        elevation: 5,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: Stack(
-            children: [
-              Image.asset(
-                imagePath,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.transparent,
-                      Colors.black.withOpacity(0.5),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 10,
-                left: 10,
-                child: Text(
-                  countryName,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   const CountryCard({
+//     Key? key,
+//     required this.imagePath,
+//     required this.countryName,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () {
+//         Navigator.push(
+//           context,
+//           MaterialPageRoute(
+//             builder: ((context) => LeaguesScreen(
+//                   countryName: '',
+//                   leagues: [],
+//                 )),
+//           ),
+//         );
+//       },
+//       child: Card(
+//         margin: EdgeInsets.all(15),
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(15),
+//         ),
+//         elevation: 5,
+//         child: ClipRRect(
+//           borderRadius: BorderRadius.circular(15),
+//           child: Stack(
+//             children: [
+//               Image.asset(
+//                 imagePath,
+//                 fit: BoxFit.cover,
+//                 width: double.infinity,
+//                 height: double.infinity,
+//               ),
+//               Container(
+//                 decoration: BoxDecoration(
+//                   gradient: LinearGradient(
+//                     begin: Alignment.topCenter,
+//                     end: Alignment.bottomCenter,
+//                     colors: [
+//                       Colors.transparent,
+//                       Colors.black.withOpacity(0.5),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//               Positioned(
+//                 bottom: 10,
+//                 left: 10,
+//                 child: Text(
+//                   countryName,
+//                   style: TextStyle(
+//                     color: Colors.white,
+//                     fontSize: 20,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

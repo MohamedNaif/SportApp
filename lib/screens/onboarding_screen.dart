@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:myapp/cubit/OnBoardingConroller/on_boarding_controller_cubit.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
+import 'package:myapp/data/cubit/CountriesCubit/countries_cubit.dart';
+import 'package:myapp/data/cubit/OnBoardingConroller/on_boarding_controller_cubit.dart';
+import 'package:myapp/screens/countries_screen.dart';
 import 'package:myapp/screens/home_page.dart';
 import 'dart:async';
+
+import 'package:myapp/screens/leagues_screen.dart';
 
 class ONBoardingScreen extends StatefulWidget {
   ONBoardingScreen({super.key});
@@ -15,15 +20,15 @@ class ONBoardingScreen extends StatefulWidget {
 }
 
 class _ONBoardingScreenState extends State<ONBoardingScreen> {
-  final int pageNum = 3 ;
+  final int pageNum = 3;
 
-  PageController _pageController = PageController(initialPage: 1 ) ;
+  PageController _pageController = PageController(initialPage: 1);
 
   Timer? _timer;
 
   int _currentPage = 0;
 
-   @override
+  @override
   void initState() {
     super.initState();
     _startTimer();
@@ -52,7 +57,6 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
         child: Scaffold(
             body: Column(
@@ -60,32 +64,23 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
         Expanded(
             flex: 2,
             child: PageView.builder(
-              controller: _pageController,
-                   itemCount: 5 ,
-                  
-                  onPageChanged: (i) {
-                    if ( i == pageNum + 1) {
-                       _pageController.jumpToPage(1) ;
-                       i = 1 ;
-                    }else if (i == 0){
-                      _pageController.animateToPage(3 ,
-                      duration: Duration(milliseconds: 40) ,
-                      curve: Curves.easeIn 
-                      );
-                    }
-                    _currentPage = i ;
-                    context.read<OnBoardingControllerCubit>().getIndex(i);
-                  },
-                  
-                   itemBuilder: (context, index) => 
-                    Container(
-                        color: Colors.green,
-                        child: Center(child: Text("page $index")))
-                  
-                     
-                  
-                )
-              ),
+                controller: _pageController,
+                itemCount: 5,
+                onPageChanged: (i) {
+                  if (i == pageNum + 1) {
+                    _pageController.jumpToPage(1);
+                    i = 1;
+                  } else if (i == 0) {
+                    _pageController.animateToPage(3,
+                        duration: Duration(milliseconds: 40),
+                        curve: Curves.easeIn);
+                  }
+                  _currentPage = i;
+                  context.read<OnBoardingControllerCubit>().getIndex(i);
+                },
+                itemBuilder: (context, index) => Container(
+                    color: Colors.green,
+                    child: Center(child: Text("page $index"))))),
         Expanded(
             flex: 1,
             child: Column(
@@ -103,9 +98,10 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
                                   duration: const Duration(milliseconds: 400),
                                   margin: const EdgeInsets.all(2.5),
                                   height: 6,
-                                  width: context.read<OnBoardingControllerCubit>()
+                                  width: context
+                                              .read<OnBoardingControllerCubit>()
                                               .currentIndex ==
-                                          indx + 1 
+                                          indx + 1
                                       ? 20
                                       : 6,
                                   decoration: BoxDecoration(
@@ -118,15 +114,21 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
                   },
                 ),
                 InkWell(
-                  onTap: () {  _timer?.cancel() ; Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));},
+                  onTap: () {
+                    _timer?.cancel();
+                    context.read<CountriesCubit>().getCountriesDate();
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CountriesScreen()));
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     width: MediaQuery.of(context).size.width * 0.5,
-                    child:  Center(child: Text ("Skip" )),
+                    child: Center(child: Text("Skip")),
                     decoration: BoxDecoration(
-                      color: Colors.red ,
-                      borderRadius: BorderRadius.circular(15) 
-                    ),
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(15)),
                   ),
                 )
               ],

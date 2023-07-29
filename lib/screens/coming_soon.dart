@@ -11,7 +11,9 @@ class ComingSoon extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 240, horizontal: 20),
+          margin: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.height * 0.3,
+              horizontal: MediaQuery.of(context).size.width * 0.04),
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(

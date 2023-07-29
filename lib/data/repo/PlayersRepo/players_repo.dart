@@ -15,7 +15,11 @@ class PlayersRepo {
 
       if (response.statusCode == 200) {
         PlayersModel data = PlayersModel.fromJson(ourResponse);
-        return data;
+        if (data.result != null) {
+          return data;
+        } else {
+          return null;
+        }
       } else {
         return null;
       }

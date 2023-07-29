@@ -21,6 +21,20 @@ class ONBoardingScreen extends StatefulWidget {
 
 class _ONBoardingScreenState extends State<ONBoardingScreen> {
   final int pageNum = 3;
+  List<String> onBoardingTitle = [
+    '',
+    ' Welcome to our Sports App!',
+    ' Choose your favorite sports',
+    'Find your favorite leagues and Get to know your favorite players',
+    '        ',
+  ];
+  List<String> onBoardingSubtitle = [
+    '',
+    '        ',
+    ' Select the sports you want to follow, including football, tennis, basketball, and handball.',
+    'Follow your favorite leagues and our favorite players.',
+    '        '
+  ];
 
   PageController _pageController = PageController(initialPage: 1);
 
@@ -81,9 +95,20 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
                 itemBuilder: (context, index) => Container(
                     color: const Color.fromRGBO(24, 25, 40, 1),
                     child: Center(
-                        child: Text(
-                      "page $index",
-                      style: TextStyle(color: Colors.white),
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          onBoardingTitle[index],
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Center(
+                          child: Text(
+                            onBoardingSubtitle[index],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ))))),
         Expanded(
             flex: 1,

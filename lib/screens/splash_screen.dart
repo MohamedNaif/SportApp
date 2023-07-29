@@ -55,26 +55,28 @@ class _SplashScreenState extends State<SplashScreen>
             ),
             Align(
               alignment: Alignment.center,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 520,
-                  ),
-                  Container(
-                    child: const Text(
-                      'Sport App',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 175, 159,
-                            175), // Assumes --text-color-1 is white
-
-                        fontFamily: 'Poppins',
-                        fontSize: 32,
-                        fontWeight: FontWeight.w600,
-                        height: 0.8, // Assumes line-height is 80%
-                      ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 520,
                     ),
-                  )
-                ],
+                    Container(
+                      child: const Text(
+                        'Sport App',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 175, 159,
+                              175), // Assumes --text-color-1 is white
+
+                          fontFamily: 'Poppins',
+                          fontSize: 32,
+                          fontWeight: FontWeight.w600,
+                          height: 0.8, // Assumes line-height is 80%
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           ],

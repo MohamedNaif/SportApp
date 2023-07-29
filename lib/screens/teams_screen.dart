@@ -95,7 +95,10 @@ class TeamsScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Players(),
+                                    builder: (context) => Players(
+                                      teamId:
+                                          "${state.teamsData.result![index].teamKey!}",
+                                    ),
                                   ));
                             },
                             child: Container(

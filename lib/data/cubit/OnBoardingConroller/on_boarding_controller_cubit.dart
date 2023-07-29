@@ -6,7 +6,7 @@ part 'on_boarding_controller_state.dart';
 
 class OnBoardingControllerCubit extends Cubit<OnBoardingControllerState> {
   OnBoardingControllerCubit() : super(OnBoardingControllerInitial());
-  int currentIndex = 0;
+  int currentIndex = 1;
   getIndex(int i) {
     currentIndex = i;
     emit(OnBoardingControllerInitial());

@@ -5,6 +5,7 @@ import 'package:myapp/data/cubit/CountriesCubit/countries_cubit.dart';
 import 'package:myapp/data/cubit/LeaguesCubit/leagues_cubit.dart';
 
 import 'package:myapp/data/cubit/OnBoardingConroller/on_boarding_controller_cubit.dart';
+import 'package:myapp/data/cubit/Playerscubit/players_cubit.dart';
 import 'package:myapp/data/cubit/TeamsCubit/teams_cubit.dart';
 import 'package:myapp/data/cubit/Topscorer/top_scorer_cubit.dart';
 import 'package:myapp/screens/splash_screen.dart';
@@ -43,7 +44,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<TeamsCubit>(
             create: (BuildContext context) => TeamsCubit()),
         BlocProvider<TopScorerCubit>(
-            create: (BuildContext context) => TopScorerCubit()),    
+            create: (BuildContext context) => TopScorerCubit()),
+            BlocProvider<PlayersCubit>(
+            create: (BuildContext context) => PlayersCubit()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -8,14 +8,13 @@ part 'top_scorer_state.dart';
 class TopScorerCubit extends Cubit<TopScorerState> {
   TopScorerCubit() : super(TopScorerInitial());
 
-  void getTopscorerData(leagueId){
-    emit(TopScorerLoading()) ;
+  void getTopscorerData(int leagueId) {
+    emit(TopScorerLoading());
     TopScorerRepo().getTopScorerRepo(leagueId: leagueId).then((value) {
-      if ( value != null){
-        emit(TopScorerSucceed(topscorerData: value)) ;
-      }
-      else {
-        emit(TopScorerError()) ;
+      if (value != null) {
+        emit(TopScorerSucceed(topscorerData: value));
+      } else {
+        emit(TopScorerError());
       }
     });
   }

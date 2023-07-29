@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/data/cubit/LeaguesCubit/leagues_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/data/cubit/TeamsCubit/teams_cubit.dart';
+import 'package:myapp/data/cubit/Topscorer/top_scorer_cubit.dart';
 import 'teams_screen.dart';
 
 class LeaguesScreen extends StatelessWidget {
@@ -45,6 +46,9 @@ class LeaguesScreen extends StatelessWidget {
                   onTap: () {
                     context.read<TeamsCubit>().getTeams(
                         state.leaguesData.result![index].leagueKey!, "");
+
+                    context.read<TopScorerCubit>().getTopscorerData(
+                        state.leaguesData.result![index].leagueKey!);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

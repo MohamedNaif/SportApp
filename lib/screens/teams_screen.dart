@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/data/cubit/TeamsCubit/teams_cubit.dart';
+import 'package:myapp/data/cubit/Topscorer/top_scorer_cubit.dart';
 import 'package:myapp/screens/playres_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -132,14 +133,33 @@ class TopScorersScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Top Scorers'),
       ),
-      body: ListView(
-        children: [
-          // Add top scorer cards here
-          const TopScorerCard(playerName: 'Player 1', goalsScored: 20),
-          const TopScorerCard(playerName: 'Player 2', goalsScored: 18),
-          const TopScorerCard(playerName: 'Player 3', goalsScored: 15),
-          const TopScorerCard(playerName: 'Player 4', goalsScored: 12),
-        ],
+      body: BlocBuilder<TopScorerCubit, TopScorerState>(
+        builder: (context, state) {
+          if ( state is TopScorerSucceed){
+          return ListView.builder(
+              itemCount: state.topscorerData.result!.length,
+              itemBuilder: (context, index) => 
+              Container(
+                height: 200 ,
+                width: double.infinity,
+                color: Color.fromARGB(255, 34, 40, 24),
+                child: Column( 
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                  Title(color: Colors.white, child: Text(state.topscorerData.result![index].playerName ?? ""))
+                  TexT
+                ]),
+              )
+              ,
+            );}
+            else if ( state is TopScorerLoading){
+              return Center( child : CircularProgressIndicator()) ;
+            }
+            else {
+              return Center(child : Text("Error")) ;
+            }
+        },
       ),
     );
   }

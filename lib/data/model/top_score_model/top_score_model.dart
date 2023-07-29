@@ -2,13 +2,13 @@ import 'package:collection/collection.dart';
 
 import 'result.dart';
 
-class TopScoreModel {
+class TopScorerModel {
   int? success;
   List<Result>? result;
 
-  TopScoreModel({this.success, this.result});
+  TopScorerModel({this.success, this.result});
 
-  factory TopScoreModel.fromJson(Map<String, dynamic> json) => TopScoreModel(
+  factory TopScorerModel.fromJson(Map<String, dynamic> json) => TopScorerModel(
         success: json['success'] as int?,
         result: (json['result'] as List<dynamic>?)
             ?.map((e) => Result.fromJson(e as Map<String, dynamic>))
@@ -23,7 +23,7 @@ class TopScoreModel {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! TopScoreModel) return false;
+    if (other is! TopScorerModel) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }

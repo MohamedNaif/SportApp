@@ -143,7 +143,7 @@ class CountriesScreen extends StatelessWidget {
 //           context,
 //           MaterialPageRoute(
 //             builder: ((context) => LeaguesScreen(
-                
+
 //                 )),
 //           ),
 //         );

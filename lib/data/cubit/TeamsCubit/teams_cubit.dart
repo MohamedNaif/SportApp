@@ -8,14 +8,15 @@ part 'teams_state.dart';
 class TeamsCubit extends Cubit<TeamsState> {
   TeamsCubit() : super(TeamsInitial());
 
-  getTeams(int leaguesKey , String teamName){
-    emit(TeamsLoading()) ;
-    TeamsRepo().getTeamsData(leagueId: leaguesKey , teamName: teamName).then((value) {
-      if ( value != null){
-        emit(TeamsSucceed(teamsData: value)) ;
-      }
-      else {
-        emit(TeamsError()) ;
+  getTeams(int leaguesKey, String teamName) {
+    emit(TeamsLoading());
+    TeamsRepo()
+        .getTeamsData(leagueId: leaguesKey, teamName: teamName)
+        .then((value) {
+      if (value != null) {
+        emit(TeamsSucceed(teamsData: value));
+      } else {
+        emit(TeamsError());
       }
     });
   }

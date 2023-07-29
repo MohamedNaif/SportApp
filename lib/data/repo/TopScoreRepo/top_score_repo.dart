@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:myapp/data/model/teams_model/teams_model.dart';
 
-class TeamsRepo {
-  Future<TeamsModel?> getTeamsData(
-      {required int leagueId, required String teamName}) async {
+import '../../model/top_score_model/top_score_model.dart';
+
+class TopScorerRepo {
+  Future<TopScoreModel?> getTeamsData({required int leagueId}) async {
     try {
       var respose = await get(Uri.parse(
-          "https://apiv2.allsportsapi.com/football/?&met=Teams&APIkey=ab891d6b5d8e467937d5ab9683da4c0760e2a13b1443ca4bb8c0f42e265a798a&leagueId=$leagueId&teamName=$teamName"));
+          "https://apiv2.allsportsapi.com/football/?&met=Topscorers&leagueId=$leagueId&APIkey=379594f1c6e5c8c8b706e1733527e2103f061ca2a436650e5098fd948ab731b3"));
       Map<String, dynamic> ourResponse = json.decode(respose.body);
       if (respose.statusCode == 200) {
-        TeamsModel data = TeamsModel.fromJson(ourResponse);
+        TopScoreModel data = TopScoreModel.fromJson(ourResponse);
         if (data.result != null) {
           return data;
         } else {

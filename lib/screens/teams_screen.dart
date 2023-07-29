@@ -77,14 +77,32 @@ class TeamsScreen extends StatelessWidget {
               builder: (context, state) {
                 if (state is TeamsSucceed) {
                   return GridView.builder(
-                    itemCount: state.teamsData.result!.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                    itemBuilder: (context, index) => TeamCard(
-                        teamName:
-                            state.teamsData.result![index].teamName ?? ""),
-                  );
+                      itemCount: state.teamsData.result!.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              color: const Color.fromRGBO(24, 25, 40, 1),
+                              image: DecorationImage(
+                                  image: NetworkImage(state
+                                          .teamsData.result![index].teamLogo ??
+                                      'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'))),
+                          margin: const EdgeInsets.all(10),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                state.teamsData.result![index].teamName ?? '',
+                                style: const TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
                 } else if (state is TeamsLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else {
@@ -127,28 +145,31 @@ class TopScorersScreen extends StatelessWidget {
   }
 }
 
-class TeamCard extends StatelessWidget {
-  final String teamName;
+// class TeamCard extends StatelessWidget {
+//   final String teamName;
 
-  const TeamCard({
-    Key? key,
-    required this.teamName,
-  }) : super(key: key);
+//   const TeamCard({
+//     Key? key,
+//     required this.teamName,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: const Color.fromRGBO(24, 25, 40, 1),
-      margin: const EdgeInsets.all(10),
-      child: Center(
-        child: Text(
-          teamName,
-          style: const TextStyle(fontSize: 20, color: Colors.white),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration:
+//           BoxDecoration(image: DecorationImage(image: NetworkImage(imgUrl))),
+//       color: const Color.fromRGBO(24, 25, 40, 1),
+//       margin: const EdgeInsets.all(10),
+//       child: Align(
+//         alignment: Alignment.bottomLeft,
+//         child: Text(
+//           teamName,
+//           style: const TextStyle(fontSize: 20, color: Colors.white),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class TopScorerCard extends StatelessWidget {
   final String playerName;

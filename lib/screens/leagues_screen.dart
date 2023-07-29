@@ -43,12 +43,14 @@ class LeaguesScreen extends StatelessWidget {
                     height: 75,
                   ),
                   onTap: () {
-                    context.read<TeamsCubit>().getTeams(state.leaguesData.result![index].leagueKey!  , "") ;
+                    context.read<TeamsCubit>().getTeams(
+                        state.leaguesData.result![index].leagueKey!, "");
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: ((context) => Teams   (
-                              leagueKey:state.leaguesData.result![index].leagueKey!,
+                        builder: ((context) => Teams(
+                              leagueKey:
+                                  state.leaguesData.result![index].leagueKey!,
                             )),
                       ),
                     );

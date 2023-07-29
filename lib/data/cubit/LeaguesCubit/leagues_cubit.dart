@@ -11,7 +11,7 @@ class LeaguesCubit extends Cubit<LeaguesState> {
   getLeaguesData(int countryId) async {
     emit(LeaguesLoading());
 
-    LeaguesRepo().getLeaguesDataRepo(countryId: countryId ).then((value) {
+    LeaguesRepo().getLeaguesDataRepo(countryId: countryId).then((value) {
       if (value != null) {
         emit(LeaguesSucceed(leaguesData: value));
       } else {

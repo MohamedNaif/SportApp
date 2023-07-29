@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:myapp/data/cubit/TeamsCubit/teams_cubit.dart';
 import 'package:myapp/screens/playres_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-class Teams extends StatelessWidget {
-  final int leagueKey ;
 
-  Teams({required this.leagueKey}) ;
+class Teams extends StatelessWidget {
+  final int leagueKey;
+
+  Teams({required this.leagueKey});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,9 @@ class Teams extends StatelessWidget {
           bottom: const TabBar(
             tabs: [
               Tab(text: 'Teams'),
-              Tab(text: 'Top Scorers' , ),
+              Tab(
+                text: 'Top Scorers',
+              ),
             ],
           ),
         ),
@@ -27,12 +30,12 @@ class Teams extends StatelessWidget {
             // Overview screen
             Container(
               color: Colors.white,
-              child:  Center(
-                child:  TeamsScreen(leagueKey : leagueKey),
+              child: Center(
+                child: TeamsScreen(leagueKey: leagueKey),
               ),
             ),
             // Teams screen
-            
+
             // Top Scorers screen
             const TopScorersScreen(),
           ],
@@ -43,24 +46,26 @@ class Teams extends StatelessWidget {
 }
 
 class TeamsScreen extends StatelessWidget {
-  final int leagueKey ;
-  const TeamsScreen(  {required this.leagueKey});
+  final int leagueKey;
+  const TeamsScreen({required this.leagueKey});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController? search = TextEditingController(text:  "" ) ;
+    TextEditingController? search = TextEditingController(text: "");
     return Scaffold(
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(10),
             child: TextField(
-              controller: search ,
+              controller: search,
               decoration: InputDecoration(
                 hintText: 'Search for a team',
                 suffixIcon: InkWell(
-                  onTap: () => context.read<TeamsCubit>().getTeams( leagueKey , search.text ),
-                  child: const Icon(Icons.search)),
+                    onTap: () => context
+                        .read<TeamsCubit>()
+                        .getTeams(leagueKey, search.text),
+                    child: const Icon(Icons.search)),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -70,22 +75,26 @@ class TeamsScreen extends StatelessWidget {
           Expanded(
             child: BlocBuilder<TeamsCubit, TeamsState>(
               builder: (context, state) {
-                if ( state is TeamsSucceed){
-                return GridView.builder(
-                  itemCount: state.teamsData.result!.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemBuilder: (context, index) => TeamCard(teamName: state.teamsData.result![index].teamName ?? ""),     
-                  
-                );
-                }
-                else if ( state is TeamsLoading) {
-                  return const Center(
-                    child : CircularProgressIndicator() 
+                if (state is TeamsSucceed) {
+                  return GridView.builder(
+                    itemCount: state.teamsData.result!.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                    itemBuilder: (context, index) => TeamCard(
+                        teamName:
+                            state.teamsData.result![index].teamName ?? ""),
                   );
-                }
-                else {
-                  return const Center(child: Text("NO Result" , style: TextStyle(fontSize: 30 , fontWeight: FontWeight.w700),),) ;
+                } else if (state is TeamsLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else {
+                  return const Center(
+                    child: Text(
+                      "NO Result",
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+                    ),
+                  );
                 }
               },
             ),
@@ -129,11 +138,12 @@ class TeamCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: const Color.fromRGBO(24, 25, 40, 1),
       margin: const EdgeInsets.all(10),
       child: Center(
         child: Text(
           teamName,
-          style: const TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20, color: Colors.white),
         ),
       ),
     );

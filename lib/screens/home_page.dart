@@ -11,62 +11,82 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var screenH = MediaQuery.of(context).size.height;
-    var screenW = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: Colors.blue,
-        child: Align(
-          alignment: Alignment.center,
-          child: GridView(
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
-            children: [
-              Container(
-                child: Row(
-                  children: [
-                    Container(
-                      width: screenW * 0.5,
-                      // color: Colors.black,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/man.png"))),
+        decoration: BoxDecoration(
+          color: const Color.fromRGBO(24, 25, 40, 1),
+        ),
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.2,
+            ),
+            Expanded(
+              child: GridView.count(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 20,
+                crossAxisCount: 2,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => CountriesScreen()),
+                        ),
+                      );
+                    },
+                    child: const Categories(
+                      imageUrl: 'assets/mainimg.jpeg',
+                      name: 'Football',
                     ),
-                    Container(
-                      width: screenW * 0.5,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/man.png"))),
-                      // color: Colors.green,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => ComingSoon()),
+                        ),
+                      );
+                    },
+                    child: const Categories(
+                      imageUrl: 'assets/basketball.jpg',
+                      name: 'BasketBall',
                     ),
-                  ],
-                ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => ComingSoon()),
+                        ),
+                      );
+                    },
+                    child: const Categories(
+                      imageUrl: 'assets/handball.jpg',
+                      name: 'HandBall',
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => ComingSoon()),
+                        ),
+                      );
+                    },
+                    child: const Categories(
+                      imageUrl: 'assets/Tennis.jpg',
+                      name: 'Tennis',
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                child: Row(
-                  children: [
-                    Container(
-                      width: screenW * 0.5,
-                      // color: Colors.yellow,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/man.png"))),
-                    ),
-                    Container(
-                      width: screenW * 0.5,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/man.png"),
-                              fit: BoxFit.cover)),
-                      // color: Colors.red,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

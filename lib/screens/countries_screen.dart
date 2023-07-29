@@ -19,7 +19,7 @@ class CountriesScreen extends StatelessWidget {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.blueGrey,
+        color: Color.fromRGBO(24, 25, 40, 1),
         child: BlocBuilder<CountriesCubit, CountriesState>(
           builder: (context, state) {
             if (state is CountriesError) {
@@ -28,12 +28,16 @@ class CountriesScreen extends StatelessWidget {
               );
             } else if (state is CountriesSucceed) {
               return GridView.builder(
+                padding: EdgeInsets.all(20),
                 itemCount: state.countriesData.result!.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisSpacing: 30,
+                    mainAxisSpacing: 20,
                     crossAxisCount: 2),
                 itemBuilder: (context, index) => InkWell(
                   onTap: () {
-                    context.read<LeaguesCubit>().getLeaguesData(state.countriesData.result![index].countryKey!);
+                    context.read<LeaguesCubit>().getLeaguesData(
+                        state.countriesData.result![index].countryKey!);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -43,12 +47,21 @@ class CountriesScreen extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: NetworkImage(state
-                                    .countriesData.result![index].countryLogo ??
-                                "assets/style.jpg"))),
-                    child: Center(
-                      child:
-                          Text(state.countriesData.result![index].countryName!),
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                          state.countriesData.result![index].countryLogo ??
+                              "assets/style.jpg"),
+                    )),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        state.countriesData.result![index].countryName!,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -130,8 +143,7 @@ class CountriesScreen extends StatelessWidget {
 //           context,
 //           MaterialPageRoute(
 //             builder: ((context) => LeaguesScreen(
-//                   countryName: '',
-//                   leagues: [],
+                
 //                 )),
 //           ),
 //         );

@@ -79,59 +79,78 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
                   context.read<OnBoardingControllerCubit>().getIndex(i);
                 },
                 itemBuilder: (context, index) => Container(
-                    color: Colors.green,
-                    child: Center(child: Text("page $index"))))),
+                    color: const Color.fromRGBO(24, 25, 40, 1),
+                    child: Center(
+                        child: Text(
+                      "page $index",
+                      style: TextStyle(color: Colors.white),
+                    ))))),
         Expanded(
             flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                BlocBuilder<OnBoardingControllerCubit,
-                    OnBoardingControllerState>(
-                  builder: (context, state) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ...List.generate(
-                            3,
-                            (indx) => AnimatedContainer(
-                                  duration: const Duration(milliseconds: 400),
-                                  margin: const EdgeInsets.all(2.5),
-                                  height: 6,
-                                  width: context
-                                              .read<OnBoardingControllerCubit>()
-                                              .currentIndex ==
-                                          indx + 1
-                                      ? 20
-                                      : 6,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ))
-                      ],
-                    );
-                  },
-                ),
-                InkWell(
-                  onTap: () {
-                    _timer?.cancel();
-                    context.read<CountriesCubit>().getCountriesDate();
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CountriesScreen()));
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Center(child: Text("Skip")),
-                    decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(15)),
+            child: Container(
+              color: const Color.fromRGBO(24, 25, 40, 1),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  BlocBuilder<OnBoardingControllerCubit,
+                      OnBoardingControllerState>(
+                    builder: (context, state) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ...List.generate(
+                              3,
+                              (indx) => AnimatedContainer(
+                                    duration: const Duration(milliseconds: 400),
+                                    margin: const EdgeInsets.all(2.5),
+                                    height: 6,
+                                    width: context
+                                                .read<
+                                                    OnBoardingControllerCubit>()
+                                                .currentIndex ==
+                                            indx + 1
+                                        ? 20
+                                        : 6,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ))
+                        ],
+                      );
+                    },
                   ),
-                )
-              ],
+                  InkWell(
+                    onTap: () {
+                      _timer?.cancel();
+                      context.read<CountriesCubit>().getCountriesDate();
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Center(
+                          child: Text(
+                        "Skip",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                      decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFF4568DC),
+                              Color(0xFFB06AB3),
+                            ],
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            stops: [0.0, 1.0],
+                          ),
+                          // color: Colors.red,
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                  )
+                ],
+              ),
             ))
       ],
     )));

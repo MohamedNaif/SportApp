@@ -28,11 +28,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<LeaguesCubit>(
             create: (BuildContext context) => LeaguesCubit()),
         BlocProvider<TeamsCubit>(
-            create: (BuildContext context) => TeamsCubit()),    
+            create: (BuildContext context) => TeamsCubit()),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner:false,
-        home: ONBoardingScreen(),
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
       ),
     );
   }

@@ -14,80 +14,88 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/timothy-tan-PAe2UhGo-S4-unsplash.jpg'),
+              fit: BoxFit.cover),
           color: const Color.fromRGBO(24, 25, 40, 1),
         ),
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.2,
-            ),
-            Expanded(
-              child: GridView.count(
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 20,
-                crossAxisCount: 2,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => CountriesScreen()),
-                        ),
-                      );
-                    },
-                    child: const Categories(
-                      imageUrl: 'assets/mainimg.jpeg',
-                      name: 'Football',
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => ComingSoon()),
-                        ),
-                      );
-                    },
-                    child: const Categories(
-                      imageUrl: 'assets/basketball.jpg',
-                      name: 'BasketBall',
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => ComingSoon()),
-                        ),
-                      );
-                    },
-                    child: const Categories(
-                      imageUrl: 'assets/handball.jpg',
-                      name: 'HandBall',
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => ComingSoon()),
-                        ),
-                      );
-                    },
-                    child: const Categories(
-                      imageUrl: 'assets/Tennis.jpg',
-                      name: 'Tennis',
-                    ),
-                  ),
-                ],
+        child: Stack(children: [
+          Container(
+            color: Color.fromARGB(221, 36, 37, 57),
+          ),
+          Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.2,
               ),
-            ),
-          ],
-        ),
+              Expanded(
+                child: GridView.count(
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 20,
+                  crossAxisCount: 2,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => CountriesScreen()),
+                          ),
+                        );
+                      },
+                      child: const Categories(
+                        imageUrl: 'assets/mainimg.jpeg',
+                        name: 'Football',
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => ComingSoon()),
+                          ),
+                        );
+                      },
+                      child: const Categories(
+                        imageUrl: 'assets/basketball.jpg',
+                        name: 'BasketBall',
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => ComingSoon()),
+                          ),
+                        );
+                      },
+                      child: const Categories(
+                        imageUrl: 'assets/handball.jpg',
+                        name: 'HandBall',
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => ComingSoon()),
+                          ),
+                        );
+                      },
+                      child: const Categories(
+                        imageUrl: 'assets/Tennis.jpg',
+                        name: 'Tennis',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ]),
       ),
     );
   }

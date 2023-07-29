@@ -65,6 +65,9 @@ class Players extends StatelessWidget {
                           backgroundImage: NetworkImage(state
                                   .playerData.result![index].playerImage ??
                               'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000'),
+                          onBackgroundImageError: (exception, stackTrace) {
+                            Image.asset('assets/images.png');
+                          },
                         ),
                         title: Text(
                           state.playerData.result![index].playerName ?? "",

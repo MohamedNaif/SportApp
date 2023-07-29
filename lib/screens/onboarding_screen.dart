@@ -23,15 +23,15 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
   final int pageNum = 3;
   List<String> onBoardingTitle = [
     '',
-    ' Welcome to our Sports App!',
-    ' Choose your favorite sports',
-    'Find your favorite leagues and Get to know your favorite players',
+    'Welcome to our Sports App!',
+    'Choose your favorite sports',
+    'Find your favorite leagues and favorite players',
     '        ',
   ];
   List<String> onBoardingSubtitle = [
     '',
     '        ',
-    ' Select the sports you want to follow, including football, tennis, basketball, and handball.',
+    'Select the sports you want to follow, including football, tennis, basketball, and handball.',
     'Follow your favorite leagues and our favorite players.',
     '        '
   ];
@@ -73,111 +73,151 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            body: Column(
-      children: [
-        Expanded(
-            flex: 2,
-            child: PageView.builder(
-                controller: _pageController,
-                itemCount: 5,
-                onPageChanged: (i) {
-                  if (i == pageNum + 1) {
-                    _pageController.jumpToPage(1);
-                    i = 1;
-                  } else if (i == 0) {
-                    _pageController.animateToPage(3,
-                        duration: Duration(milliseconds: 40),
-                        curve: Curves.easeIn);
-                  }
-                  _currentPage = i;
-                  context.read<OnBoardingControllerCubit>().getIndex(i);
-                },
-                itemBuilder: (context, index) => Container(
-                    color: const Color.fromRGBO(24, 25, 40, 1),
-                    child: Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          onBoardingTitle[index],
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Center(
-                          child: Text(
-                            onBoardingSubtitle[index],
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ))))),
-        Expanded(
-            flex: 1,
-            child: Container(
-              color: const Color.fromRGBO(24, 25, 40, 1),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  BlocBuilder<OnBoardingControllerCubit,
-                      OnBoardingControllerState>(
-                    builder: (context, state) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ...List.generate(
-                              3,
-                              (indx) => AnimatedContainer(
-                                    duration: const Duration(milliseconds: 400),
-                                    margin: const EdgeInsets.all(2.5),
-                                    height: 6,
-                                    width: context
-                                                .read<
-                                                    OnBoardingControllerCubit>()
-                                                .currentIndex ==
-                                            indx + 1
-                                        ? 20
-                                        : 6,
-                                    decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ))
-                        ],
-                      );
+            body: Container(
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/connor.jpg'), fit: BoxFit.cover)),
+      child: Stack(children: [
+        Container(
+          color: const Color.fromARGB(234, 36, 37, 57),
+        ),
+        Column(
+          children: [
+            Expanded(
+                flex: 2,
+                child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: 5,
+                    onPageChanged: (i) {
+                      if (i == pageNum + 1) {
+                        _pageController.jumpToPage(1);
+                        i = 1;
+                      } else if (i == 0) {
+                        _pageController.animateToPage(3,
+                            duration: Duration(milliseconds: 40),
+                            curve: Curves.easeIn);
+                      }
+                      _currentPage = i;
+                      context.read<OnBoardingControllerCubit>().getIndex(i);
                     },
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _timer?.cancel();
-                      context.read<CountriesCubit>().getCountriesDate();
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: Center(
-                          child: Text(
-                        "Skip",
-                        style: TextStyle(color: Colors.white),
-                      )),
-                      decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFF4568DC),
-                              Color(0xFFB06AB3),
+                    itemBuilder: (context, index) => Container(
+                            // color: const Color.fromRGBO(24, 25, 40, 1),
+                            child: Center(
+                                child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 60,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                onBoardingTitle[index],
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Times New Roman',
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                onBoardingSubtitle[index],
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 226, 220, 220),
+                                  fontSize: 20,
+                                  fontFamily: 'Roboto',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ))))),
+            Expanded(
+                flex: 1,
+                child: Container(
+                  // color: const Color.fromRGBO(24, 25, 40, 1),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      BlocBuilder<OnBoardingControllerCubit,
+                          OnBoardingControllerState>(
+                        builder: (context, state) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ...List.generate(
+                                  3,
+                                  (indx) => AnimatedContainer(
+                                        duration:
+                                            const Duration(milliseconds: 400),
+                                        margin: const EdgeInsets.all(2.5),
+                                        height: 6,
+                                        width: context
+                                                    .read<
+                                                        OnBoardingControllerCubit>()
+                                                    .currentIndex ==
+                                                indx + 1
+                                            ? 20
+                                            : 6,
+                                        decoration: BoxDecoration(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ))
                             ],
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            stops: [0.0, 1.0],
-                          ),
-                          // color: Colors.red,
-                          borderRadius: BorderRadius.circular(8)),
-                    ),
-                  )
-                ],
-              ),
-            ))
-      ],
+                          );
+                        },
+                      ),
+                      InkWell(
+                        onTap: () {
+                          _timer?.cancel();
+                          context.read<CountriesCubit>().getCountriesDate();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFF4568DC),
+                                  Color(0xFFB06AB3),
+                                ],
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                stops: [0.0, 1.0],
+                              ),
+                              // color: Colors.red,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                              child: Text(
+                            "Skip",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Lato",
+                            ),
+                          )),
+                        ),
+                      )
+                    ],
+                  ),
+                ))
+          ],
+        ),
+      ]),
     )));
   }
 }

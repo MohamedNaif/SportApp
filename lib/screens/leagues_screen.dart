@@ -40,6 +40,9 @@ class LeaguesScreen extends StatelessWidget {
                     image: NetworkImage(state
                             .leaguesData.result![index].leagueLogo ??
                         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBUWl3EwrWSt-3sQKy1XDdtueBDqjo_6DKMQ&usqp=CAU"),
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset('assets/images.png');
+                    },
                     width: 75,
                     height: 75,
                   ),

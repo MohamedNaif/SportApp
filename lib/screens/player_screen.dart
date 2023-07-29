@@ -95,6 +95,10 @@ class PlayerScreen extends StatelessWidget {
                                           .playerImage ??
                                       'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000'),
                                 ),
+                                onBackgroundImageError:
+                                    (exception, stackTrace) {
+                                  Image.asset('assets/images.png');
+                                },
                               )
                             ],
                           ),
@@ -146,7 +150,8 @@ class PlayerScreen extends StatelessWidget {
                                   Column(
                                     children: [
                                       Icon(
-                                        Icons.emoji_events,
+                                        // Icons.sports_bar_sharp,
+                                        Icons.sports_baseball,
                                         size: 36.0,
                                         color: Colors.yellow[600],
                                       ),

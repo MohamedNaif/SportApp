@@ -47,6 +47,9 @@ class CountriesScreen extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                         image: DecorationImage(
+                      onError: (exception, stackTrace) {
+                        Image.asset('assets/images.png');
+                      },
                       fit: BoxFit.fill,
                       image: NetworkImage(
                           state.countriesData.result![index].countryLogo ??

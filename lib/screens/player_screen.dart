@@ -17,7 +17,7 @@ class PlayerScreen extends StatelessWidget {
         title: Text('Player Screen'),
         leading: InkWell(
             onTap: () {
-              context.read<PlayersCubit>().getPlayersData(teamId, '');
+              context.read<PlayersCubit>().getPlayersData(teamId, '', '');
               Navigator.push(
                   context,
                   MaterialPageRoute(

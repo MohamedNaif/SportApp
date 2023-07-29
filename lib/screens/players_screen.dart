@@ -30,7 +30,8 @@ class Players extends StatelessWidget {
 
                   context.read<PlayersCubit>().getPlayersData(
                       "${state.playerData.result![index].teamKey!}",
-                      "${state.playerData.result![index].playerKey}");
+                      "${state.playerData.result![index].playerKey}",
+                      '');
                 },
                 child: ListTile(
                   trailing: Icon(Icons.sports_soccer),

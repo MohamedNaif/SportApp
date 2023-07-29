@@ -8,13 +8,16 @@ part 'players_state.dart';
 class PlayersCubit extends Cubit<PlayersState> {
   PlayersCubit() : super(PlayersInitial());
 
-  getPlayersData(String teamId , String playerId){
-    emit(Playersloading()) ;
-    PlayersRepo().getPlayersRepo(teamId: teamId, playerId: playerId).then((value){
-      if ( value != null ){
-      emit(PlayersSucceed(playerData: value)) ;
-      }else {
-        emit(PlayersError()) ;
+  getPlayersData(String teamId, String playerId, String playerName) {
+    emit(Playersloading());
+    PlayersRepo()
+        .getPlayersRepo(
+            teamId: teamId, playerId: playerId, playerName: playerName)
+        .then((value) {
+      if (value != null) {
+        emit(PlayersSucceed(playerData: value));
+      } else {
+        emit(PlayersError());
       }
     });
   }

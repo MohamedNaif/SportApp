@@ -90,7 +90,8 @@ class TeamsScreen extends StatelessWidget {
                             onTap: () {
                               context.read<PlayersCubit>().getPlayersData(
                                   "${state.teamsData.result![index].teamKey!}",
-                                  "");
+                                  "",
+                                  '');
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

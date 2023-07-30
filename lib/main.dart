@@ -14,7 +14,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'api/firebase.dart';
 import 'screens/onboarding_screen.dart';
 
+//=======================================
+// import 'package:shared_preferences/shared_preferences.dart';
+
+// bool isOnboardingShown = false;
+
+// Future<void> setOnboardingShown() async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   await prefs.setBool('isOnboardingShown', true);
+// }
+
+// Future<bool> getOnboardingShown() async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   return prefs.getBool('isOnboardingShown') ?? false;
+// }
+//=========================================
+
 void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+
+  // // Check if onboarding screen has been shown before
+  // isOnboardingShown = await getOnboardingShown();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -45,7 +65,7 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => TeamsCubit()),
         BlocProvider<TopScorerCubit>(
             create: (BuildContext context) => TopScorerCubit()),
-            BlocProvider<PlayersCubit>(
+        BlocProvider<PlayersCubit>(
             create: (BuildContext context) => PlayersCubit()),
       ],
       child: const MaterialApp(

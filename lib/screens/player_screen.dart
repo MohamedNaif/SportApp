@@ -44,7 +44,7 @@ class PlayerScreen extends StatelessWidget {
                       children: [
                         SizedBox(height: 16.0),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 32.0),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

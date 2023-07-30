@@ -11,6 +11,7 @@ import 'package:myapp/screens/home_page.dart';
 import 'dart:async';
 
 import 'package:myapp/screens/leagues_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
@@ -73,7 +74,7 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var screenH = MediaQuery.of(context).size.height ;
+    var screenH = MediaQuery.of(context).size.height;
     return SafeArea(
         child: Scaffold(
             body: Container(
@@ -86,7 +87,7 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
           child: Column(
             children: [
               Container(
-                height: screenH * 2 / 3 ,
+                height: screenH * 2 / 3,
                 child: PageView.builder(
                     controller: _pageController,
                     itemCount: 5,
@@ -166,10 +167,9 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
                                           ? 20
                                           : 6,
                                       decoration: BoxDecoration(
-                                        color: Color.fromARGB(
-                                            255, 255, 255, 255),
-                                        borderRadius:
-                                            BorderRadius.circular(10),
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                     ))
                           ],
@@ -177,7 +177,10 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
                       },
                     ),
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.setBool('showHome', true);
+
                         // setOnboardingShown();
                         _timer?.cancel();
                         context.read<CountriesCubit>().getCountriesDate();
@@ -189,7 +192,6 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         width: MediaQuery.of(context).size.width * 0.5,
-                        
                         decoration: BoxDecoration(
                             gradient: const LinearGradient(
                               colors: [

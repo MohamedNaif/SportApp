@@ -14,8 +14,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController _slideController;
   @override
   void initState() {
@@ -24,11 +23,13 @@ class _HomePageState extends State<HomePage>
         AnimationController(vsync: this, duration: const Duration(seconds: 2));
     _slideController.forward();
   }
-  void forward(){
+
+  void forward() {
     _slideController =
         AnimationController(vsync: this, duration: const Duration(seconds: 2));
     _slideController.forward();
   }
+
   List<String> imageUrl = [
     'assets/mainimg.jpeg',
     'assets/base1.jpg',
@@ -44,8 +45,8 @@ class _HomePageState extends State<HomePage>
   ];
   @override
   Widget build(BuildContext context) {
-    var screenH = MediaQuery.of(context).size.height ; 
-    var screenW = MediaQuery.of(context).size.width ; 
+    var screenH = MediaQuery.of(context).size.height;
+    var screenW = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
         height: screenH,
@@ -61,8 +62,8 @@ class _HomePageState extends State<HomePage>
             if (context.read<HomePageCubit>().isvalid) {
               return Container(
                 color: const Color.fromARGB(221, 36, 37, 57),
-           height: screenH ,
-           width: screenW,
+                height: screenH,
+                width: screenW,
                 child: Column(
                   children: [
                     Container(
@@ -84,20 +85,16 @@ class _HomePageState extends State<HomePage>
                               .animate(_slideController),
                           child: InkWell(
                             onTap: () {
-                              if ( i == 0){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: ((context) => 
-                                       const CountriesScreen())));
-                                      
-                                }else {
-                                  context.read<HomePageCubit>().valid() ;
-                                }
-                                
-                                },
-                              
-                          
+                              if (i == 0) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                            const CountriesScreen())));
+                              } else {
+                                context.read<HomePageCubit>().valid();
+                              }
+                            },
                             child: Categories(
                               imageUrl: imageUrl[i],
                               name: sportName[i],
@@ -110,38 +107,37 @@ class _HomePageState extends State<HomePage>
                 ),
               );
             } else {
-              return  Dialog(
-      child: Container(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              'Coming soon',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'This feature is currently under development and will be available soon.',
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                context.read<HomePageCubit>().valid() ;
-                forward() ;
-              },
-              child: Text('Close'),
-            ),
-          ],
-        ),
-      ),
-    );
-              
+              return Dialog(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const Text(
+                        'Coming soon',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'This feature is currently under development and will be available soon.',
+                        style: TextStyle(fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<HomePageCubit>().valid();
+                          forward();
+                        },
+                        child: const Text('Close'),
+                      ),
+                    ],
+                  ),
+                ),
+              );
             }
           },
         ),

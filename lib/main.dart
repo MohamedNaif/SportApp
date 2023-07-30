@@ -9,9 +9,11 @@ import 'package:myapp/data/cubit/OnBoardingConroller/on_boarding_controller_cubi
 import 'package:myapp/data/cubit/Playerscubit/players_cubit.dart';
 import 'package:myapp/data/cubit/TeamsCubit/teams_cubit.dart';
 import 'package:myapp/data/cubit/Topscorer/top_scorer_cubit.dart';
+import 'package:myapp/screens/home_page.dart';
 import 'package:myapp/screens/splash_screen.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'api/firebase.dart';
 import 'screens/onboarding_screen.dart';
 
@@ -35,7 +37,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  runApp(MyApp());
+  final prefs = await SharedPreferences.getInstance();
+  final showHome = prefs.getBool('showHome') ?? false;
+
+  runApp(MyApp(showHome: showHome));
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -45,6 +50,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class MyApp extends StatelessWidget {
+  final bool? showHome;
+
+  MyApp({super.key, this.showHome});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -66,10 +74,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<PlayersCubit>(
             create: (BuildContext context) => PlayersCubit()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
-      ),
+      child:
+          MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen()),
     );
   }
 }

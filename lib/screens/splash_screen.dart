@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:myapp/main.dart';
 import 'package:myapp/screens/onboarding_screen.dart';
 import 'package:myapp/screens/test_screen.dart';
 
@@ -18,27 +19,45 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-      late AnimationController _appearController ; 
+  late AnimationController _appearController;
   @override
   void initState() {
     super.initState();
-    _appearController = AnimationController(vsync: this , duration: const Duration(seconds: 3)) ;
-    _appearController.forward() ;
+    _appearController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
+    _appearController.forward();
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     Future.delayed(const Duration(seconds: 5), () {
       // context.read<NewsAppCubit>().getNewsApp();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: ((context) => ONBoardingScreen()),
-        ),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: ((context) => ONBoardingScreen()),
+      //   ),
+      // );
+      //================================================
+      if (MyApp().showHome == false) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: ((context) => ONBoardingScreen()),
+          ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: ((context) => HomePage()),
+          ),
+        );
+      }
+      //=================================================
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var screenH = MediaQuery.of(context).size.height ;
+    var screenH = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -65,18 +84,18 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                
                 Container(
                   // width: double.infinity,
                   padding: EdgeInsets.only(bottom: screenH / 7),
-                  child:  Center(
+                  child: Center(
                     child: FadeTransition(
-                      opacity: _appearController, 
+                      opacity: _appearController,
                       child: const Text(
                         'Sport App',
                         style: TextStyle(
-                          color: Colors.white ,// Assumes --text-color-1 is white
-                                      
+                          color:
+                              Colors.white, // Assumes --text-color-1 is white
+
                           fontFamily: 'Poppins',
                           fontSize: 32,
                           fontWeight: FontWeight.w600,

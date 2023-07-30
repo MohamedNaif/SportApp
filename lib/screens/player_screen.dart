@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/screens/players_screen.dart';
@@ -20,18 +21,7 @@ class PlayerScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: const Color.fromRGBO(24, 25, 40, 1),
           title: Text('Player Screen'),
-          leading: InkWell(
-              onTap: () {
-                context.read<PlayersCubit>().getPlayersData(teamId, '', '');
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Players(
-                        teamId: '',
-                      ),
-                    ));
-              },
-              child: Icon(Icons.arrow_back)),
+          //
         ),
         body: BlocBuilder<PlayersCubit, PlayersState>(
           builder: (context, state) {
@@ -90,15 +80,18 @@ class PlayerScreen extends StatelessWidget {
                                 // minRadius: 55.0,
                                 radius: 60.0,
                                 backgroundColor: Colors.grey[200],
-                                backgroundImage: NetworkImage(
-                                  (state.playerData.result![index]
-                                          .playerImage ??
-                                      'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000'),
+                                child: ClipOval(
+                                  child: CachedNetworkImage(
+                                      imageUrl: state.playerData.result![index]
+                                              .playerImage ??
+                                          'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000',
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset('assets/images.png')),
                                 ),
-                                onBackgroundImageError:
-                                    (exception, stackTrace) {
-                                  Image.asset('assets/images.png');
-                                },
                               )
                             ],
                           ),

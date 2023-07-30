@@ -5,6 +5,7 @@ import 'package:myapp/data/cubit/Playerscubit/players_cubit.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/screens/player_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Players extends StatelessWidget {
   final String teamId;
@@ -62,12 +63,26 @@ class Players extends StatelessWidget {
                       child: ListTile(
                         trailing: Icon(Icons.sports_soccer),
                         leading: CircleAvatar(
-                          backgroundImage: NetworkImage(state
-                                  .playerData.result![index].playerImage ??
-                              'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000'),
-                          onBackgroundImageError: (exception, stackTrace) {
-                            Image.asset('assets/images.png');
-                          },
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                                imageUrl: state.playerData.result![index]
+                                        .playerImage ??
+                                    'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000',
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) =>
+                                        CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset('assets/images.png')),
+                          ),
+                          // backgroundImage:
+
+                          //  NetworkImage(state
+                          //         .playerData.result![index].playerImage ??
+                          //     'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000'),
+                          // onBackgroundImageError: (exception, stackTrace) {
+                          //   Image.asset('assets/images.png');
+                          // },
                         ),
                         title: Text(
                           state.playerData.result![index].playerName ?? "",

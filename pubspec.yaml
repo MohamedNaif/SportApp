@@ -43,6 +43,8 @@ dependencies:
   firebase_core: ^2.15.0
   firebase_messaging: ^14.6.5
   shared_preferences: ^2.2.0
+  cached_network_image:
+  # flutter_launcher_icons:
 
 dev_dependencies:
   flutter_test:

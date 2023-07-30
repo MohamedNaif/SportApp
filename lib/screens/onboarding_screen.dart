@@ -73,8 +73,6 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool _isButtonPressed = false;
-    late AnimationController _animationController;
     return SafeArea(
         child: Scaffold(
             body: Container(
@@ -185,59 +183,36 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
                           _timer?.cancel();
                           context.read<CountriesCubit>().getCountriesDate();
                           Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
                         },
-                        onTapDown: (_) {
-                          _isButtonPressed = true;
-                        },
-                        onTapCancel: () {
-                          _isButtonPressed = false;
-                        },
-                        onTapUp: (_) {
-                          _isButtonPressed = false;
-                        },
-                        child: AnimatedBuilder(
-                          animation:
-                              Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                              parent: _animationController,
-                              curve: Curves.easeInOut,
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFF4568DC),
+                                  Color(0xFFB06AB3),
+                                ],
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                stops: [0.0, 1.0],
+                              ),
+                              // color: Colors.red,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                              child: Text(
+                            "Skip",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Lato",
                             ),
-                          ),
-                          builder: (context, child) {
-                            return Container(
-                              padding: const EdgeInsets.all(10),
-                              width: MediaQuery.of(context).size.width *
-                                  (0.5 - 0.05 * _animationController.value),
-                              height: MediaQuery.of(context).size.height *
-                                  (0.06 - 0.005 * _animationController.value),
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFF4568DC),
-                                    Color(0xFFB06AB3),
-                                  ],
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  stops: [0.0, 1.0],
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  "Skip",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Lato",
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                          )),
                         ),
                       )
                     ],

@@ -31,14 +31,10 @@ import 'screens/onboarding_screen.dart';
 //=========================================
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-
-  // // Check if onboarding screen has been shown before
-  // isOnboardingShown = await getOnboardingShown();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -48,11 +44,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FirebaseApi().getFCMToken();
     return MultiBlocProvider(
       providers: [
         BlocProvider<OnBoardingControllerCubit>(
@@ -68,7 +63,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<PlayersCubit>(
             create: (BuildContext context) => PlayersCubit()),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
       ),

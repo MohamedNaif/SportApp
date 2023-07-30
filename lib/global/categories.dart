@@ -35,7 +35,7 @@ class Categories extends StatelessWidget {
                 255, 231, 218, 231), // Assumes --text-color-1 is white
 
             fontFamily: 'Poppins',
-            fontSize: 32,
+            fontSize: 30,
             fontWeight: FontWeight.w600,
             height: 0.8, // Assumes line-height is 80%
           ),

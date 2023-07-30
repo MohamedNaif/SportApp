@@ -18,11 +18,14 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
+      late AnimationController _appearController ; 
   @override
   void initState() {
     super.initState();
+    _appearController = AnimationController(vsync: this , duration: const Duration(seconds: 3)) ;
+    _appearController.forward() ;
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 5), () {
       // context.read<NewsAppCubit>().getNewsApp();
       Navigator.pushReplacement(
         context,
@@ -35,6 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    var screenH = MediaQuery.of(context).size.height ;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -47,38 +51,42 @@ class _SplashScreenState extends State<SplashScreen>
             Container(
               color: const Color.fromARGB(234, 36, 37, 57),
             ),
-            Container(
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                image: AssetImage(
-                    'assets/depositphotos_471071128-stock-illustration-atletico-madrid-blue-gradient-vector-removebg-preview.png'),
-              )),
+            FadeTransition(
+              opacity: _appearController,
+              child: Container(
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                  image: AssetImage(
+                      'assets/depositphotos_471071128-stock-illustration-atletico-madrid-blue-gradient-vector-removebg-preview.png'),
+                )),
+              ),
             ),
-            Align(
-              alignment: Alignment.center,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 520,
-                    ),
-                    Container(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                
+                Container(
+                  // width: double.infinity,
+                  padding: EdgeInsets.only(bottom: screenH / 7),
+                  child:  Center(
+                    child: FadeTransition(
+                      opacity: _appearController, 
                       child: const Text(
                         'Sport App',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 175, 159,
-                              175), // Assumes --text-color-1 is white
-
+                          color: Colors.white ,// Assumes --text-color-1 is white
+                                      
                           fontFamily: 'Poppins',
                           fontSize: 32,
                           fontWeight: FontWeight.w600,
                           height: 0.8, // Assumes line-height is 80%
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ),
+                    ),
+                  ),
+                )
+              ],
             )
           ],
         ),

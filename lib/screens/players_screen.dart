@@ -7,11 +7,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/screens/player_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class Players extends StatelessWidget {
+class Players extends StatefulWidget {
   final String teamId;
 
   Players({super.key, required this.teamId});
 
+  @override
+  State<Players> createState() => _PlayersState();
+}
+
+class _PlayersState extends State<Players> with TickerProviderStateMixin{
+  late AnimationController _slideController ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _slideController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
+    _slideController.forward() ; 
+  }
   @override
   Widget build(BuildContext context) {
     TextEditingController searchPlayer = TextEditingController(text: '');
@@ -30,7 +43,7 @@ class Players extends StatelessWidget {
                 suffixIcon: InkWell(
                     onTap: () => context
                         .read<PlayersCubit>()
-                        .getPlayersData(teamId, '', searchPlayer.text),
+                        .getPlayersData(widget.teamId, '', searchPlayer.text),
                     child: const Icon(Icons.search)),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -44,8 +57,10 @@ class Players extends StatelessWidget {
                 if (state is PlayersSucceed) {
                   return ListView.builder(
                     itemCount: state.playerData.result!.length,
-                    itemBuilder: (context, index) => InkWell(
-                      onTap: () {
+                    itemBuilder: (context, index) => SlideTransition(
+                  position: index % 2 == 0 ? Tween<Offset>(begin: Offset(-1, 0) , end: Offset(0,0) ).animate(_slideController)  : Tween<Offset>(begin: Offset(1, 0) , end: Offset(0,0) ).animate(_slideController),
+                      child: ListTile(
+                        onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -54,13 +69,12 @@ class Players extends StatelessWidget {
                                     '${(state.playerData.result![index].teamKey!)}',
                               ),
                             ));
-
+                    
                         context.read<PlayersCubit>().getPlayersData(
                             "${state.playerData.result![index].teamKey!}",
                             "${state.playerData.result![index].playerKey}",
                             '');
                       },
-                      child: ListTile(
                         trailing: Icon(Icons.sports_soccer),
                         leading: CircleAvatar(
                           child: ClipOval(
@@ -76,7 +90,7 @@ class Players extends StatelessWidget {
                                     Image.asset('assets/images.png')),
                           ),
                           // backgroundImage:
-
+                    
                           //  NetworkImage(state
                           //         .playerData.result![index].playerImage ??
                           //     'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000'),

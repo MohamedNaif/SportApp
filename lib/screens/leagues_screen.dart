@@ -5,11 +5,24 @@ import 'package:myapp/data/cubit/TeamsCubit/teams_cubit.dart';
 import 'package:myapp/data/cubit/Topscorer/top_scorer_cubit.dart';
 import 'teams_screen.dart';
 
-class LeaguesScreen extends StatelessWidget {
+class LeaguesScreen extends StatefulWidget {
   const LeaguesScreen({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<LeaguesScreen> createState() => _LeaguesScreenState();
+}
+
+class _LeaguesScreenState extends State<LeaguesScreen> with TickerProviderStateMixin {
+  late AnimationController _slideController ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _slideController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
+    _slideController.forward() ; 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,40 +41,43 @@ class LeaguesScreen extends StatelessWidget {
             } else if (state is LeaguesSucceed) {
               return ListView.builder(
                 itemCount: state.leaguesData.result!.length,
-                itemBuilder: (context, index) => ListTile(
-                  iconColor: Colors.white,
-                  textColor: Colors.white,
-                  title:
-                      Text(state.leaguesData.result![index].leagueName ?? ""),
-                  subtitle:
-                      Text(state.leaguesData.result![index].countryName ?? ""),
-                  leading: Icon(Icons.sports_soccer),
-                  trailing: Image(
-                    image: NetworkImage(state
-                            .leaguesData.result![index].leagueLogo ??
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBUWl3EwrWSt-3sQKy1XDdtueBDqjo_6DKMQ&usqp=CAU"),
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset('assets/images.png');
+                itemBuilder: (context, index) => SlideTransition(
+                  position: index % 2 == 0 ? Tween<Offset>(begin: Offset(-1, 0) , end: Offset(0,0) ).animate(_slideController)  : Tween<Offset>(begin: Offset(1, 0) , end: Offset(0,0) ).animate(_slideController),
+                  child: ListTile(
+                    iconColor: Colors.white,
+                    textColor: Colors.white,
+                    title:
+                        Text(state.leaguesData.result![index].leagueName ?? ""),
+                    subtitle:
+                        Text(state.leaguesData.result![index].countryName ?? ""),
+                    leading: Icon(Icons.sports_soccer),
+                    trailing: Image(
+                      image: NetworkImage(state
+                              .leaguesData.result![index].leagueLogo ??
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBUWl3EwrWSt-3sQKy1XDdtueBDqjo_6DKMQ&usqp=CAU"),
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset('assets/images.png');
+                      },
+                      width: 75,
+                      height: 75,
+                    ),
+                    onTap: () {
+                      context.read<TeamsCubit>().getTeams(
+                          state.leaguesData.result![index].leagueKey!, "");
+                
+                      context.read<TopScorerCubit>().getTopscorerData(
+                          state.leaguesData.result![index].leagueKey!);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => Teams(
+                                leagueKey:
+                                    state.leaguesData.result![index].leagueKey!,
+                              )),
+                        ),
+                      );
                     },
-                    width: 75,
-                    height: 75,
                   ),
-                  onTap: () {
-                    context.read<TeamsCubit>().getTeams(
-                        state.leaguesData.result![index].leagueKey!, "");
-
-                    context.read<TopScorerCubit>().getTopscorerData(
-                        state.leaguesData.result![index].leagueKey!);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => Teams(
-                              leagueKey:
-                                  state.leaguesData.result![index].leagueKey!,
-                            )),
-                      ),
-                    );
-                  },
                 ),
               );
             } else {

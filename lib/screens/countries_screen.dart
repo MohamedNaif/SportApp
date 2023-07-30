@@ -6,9 +6,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/data/repo/LeaguesRepo/leagues_repo.dart';
 import 'leagues_screen.dart';
 
-class CountriesScreen extends StatelessWidget {
+class CountriesScreen extends StatefulWidget {
   const CountriesScreen({Key? key});
 
+  @override
+  State<CountriesScreen> createState() => _CountriesScreenState();
+}
+
+class _CountriesScreenState extends State<CountriesScreen> with TickerProviderStateMixin {
+  late AnimationController _slideController ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _slideController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
+    _slideController.forward() ; 
+  }
+
+  // void forward(){}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,35 +49,38 @@ class CountriesScreen extends StatelessWidget {
                     crossAxisSpacing: 30,
                     mainAxisSpacing: 20,
                     crossAxisCount: 2),
-                itemBuilder: (context, index) => InkWell(
-                  onTap: () {
-                    context.read<LeaguesCubit>().getLeaguesData(
-                        state.countriesData.result![index].countryKey!);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LeaguesScreen(),
-                        ));
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                      onError: (exception, stackTrace) {
-                        Image.asset('assets/images.png');
-                      },
-                      fit: BoxFit.fill,
-                      image: NetworkImage(
-                          state.countriesData.result![index].countryLogo ??
-                              "assets/style.jpg"),
-                    )),
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        state.countriesData.result![index].countryName!,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                itemBuilder: (context, index) => SlideTransition(
+                  position: index % 2 == 0 ? Tween<Offset>(begin: Offset(-1, 0) , end: Offset(0,0) ).animate(_slideController)  : Tween<Offset>(begin: Offset(1, 0) , end: Offset(0,0) ).animate(_slideController),
+                  child: InkWell(
+                    onTap: () {
+                      context.read<LeaguesCubit>().getLeaguesData(
+                          state.countriesData.result![index].countryKey!);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LeaguesScreen(),
+                          ));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        onError: (exception, stackTrace) {
+                          Image.asset('assets/images.png');
+                        },
+                        fit: BoxFit.fill,
+                        image: NetworkImage(
+                            state.countriesData.result![index].countryLogo ??
+                                "assets/style.jpg"),
+                      )),
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          state.countriesData.result![index].countryName!,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

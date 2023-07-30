@@ -51,7 +51,7 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
+    _timer = Timer.periodic(Duration(seconds: 4), (Timer timer) {
       if (_currentPage < pageNum + 1) {
         _currentPage++;
         _pageController.animateToPage(
@@ -73,20 +73,20 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var screenH = MediaQuery.of(context).size.height ;
     return SafeArea(
         child: Scaffold(
             body: Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/connor.jpg'), fit: BoxFit.cover)),
-      child: Stack(children: [
-        Container(
-          color: const Color.fromARGB(234, 36, 37, 57),
-        ),
-        Column(
-          children: [
-            Expanded(
-                flex: 2,
+      child: Container(
+        color: const Color.fromARGB(234, 36, 37, 57),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: screenH * 2 / 3 ,
                 child: PageView.builder(
                     controller: _pageController,
                     itemCount: 5,
@@ -138,89 +138,89 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
                               ),
                             ),
                           ],
-                        ))))),
-            Expanded(
-                flex: 1,
-                child: Container(
-                  // color: const Color.fromRGBO(24, 25, 40, 1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      BlocBuilder<OnBoardingControllerCubit,
-                          OnBoardingControllerState>(
-                        builder: (context, state) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ...List.generate(
-                                  3,
-                                  (indx) => AnimatedContainer(
-                                        duration:
-                                            const Duration(milliseconds: 400),
-                                        margin: const EdgeInsets.all(2.5),
-                                        height: 6,
-                                        width: context
-                                                    .read<
-                                                        OnBoardingControllerCubit>()
-                                                    .currentIndex ==
-                                                indx + 1
-                                            ? 20
-                                            : 6,
-                                        decoration: BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ))
-                            ],
-                          );
-                        },
-                      ),
-                      InkWell(
-                        onTap: () {
-                          // setOnboardingShown();
-                          _timer?.cancel();
-                          context.read<CountriesCubit>().getCountriesDate();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Color(0xFF4568DC),
-                                  Color(0xFFB06AB3),
-                                ],
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
-                                stops: [0.0, 1.0],
-                              ),
-                              // color: Colors.red,
-                              borderRadius: BorderRadius.circular(8)),
-                          child: const Center(
-                              child: Text(
-                            "Skip",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "Lato",
+                        )))),
+              ),
+              Container(
+                height: screenH / 3,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    BlocBuilder<OnBoardingControllerCubit,
+                        OnBoardingControllerState>(
+                      builder: (context, state) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ...List.generate(
+                                3,
+                                (indx) => AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 400),
+                                      margin: const EdgeInsets.all(2.5),
+                                      height: 6,
+                                      width: context
+                                                  .read<
+                                                      OnBoardingControllerCubit>()
+                                                  .currentIndex ==
+                                              indx + 1
+                                          ? 20
+                                          : 6,
+                                      decoration: BoxDecoration(
+                                        color: Color.fromARGB(
+                                            255, 255, 255, 255),
+                                        borderRadius:
+                                            BorderRadius.circular(10),
+                                      ),
+                                    ))
+                          ],
+                        );
+                      },
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // setOnboardingShown();
+                        _timer?.cancel();
+                        context.read<CountriesCubit>().getCountriesDate();
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomePage()));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        
+                        decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF4568DC),
+                                Color(0xFFB06AB3),
+                              ],
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              stops: [0.0, 1.0],
                             ),
-                          )),
-                        ),
-                      )
-                    ],
-                  ),
-                ))
-          ],
+                            // color: Colors.red,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Center(
+                            child: Text(
+                          "Skip",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Lato",
+                          ),
+                        )),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
-      ]),
+      ),
     )));
   }
 }

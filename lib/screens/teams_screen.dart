@@ -47,10 +47,23 @@ class Teams extends StatelessWidget {
   }
 }
 
-class TeamsScreen extends StatelessWidget {
+class TeamsScreen extends StatefulWidget {
   final int leagueKey;
   const TeamsScreen({required this.leagueKey});
 
+  @override
+  State<TeamsScreen> createState() => _TeamsScreenState();
+}
+
+class _TeamsScreenState extends State<TeamsScreen> with TickerProviderStateMixin{
+  late AnimationController _slideController ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _slideController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
+    _slideController.forward() ; 
+  }
   @override
   Widget build(BuildContext context) {
     TextEditingController? search = TextEditingController(text: "");
@@ -68,7 +81,7 @@ class TeamsScreen extends StatelessWidget {
                   suffixIcon: InkWell(
                       onTap: () => context
                           .read<TeamsCubit>()
-                          .getTeams(leagueKey, search.text),
+                          .getTeams(widget.leagueKey, search.text),
                       child: const Icon(Icons.search)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -86,43 +99,46 @@ class TeamsScreen extends StatelessWidget {
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2),
                         itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              context.read<PlayersCubit>().getPlayersData(
-                                  "${state.teamsData.result![index].teamKey!}",
-                                  "",
-                                  '');
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Players(
-                                      teamId:
-                                          "${state.teamsData.result![index].teamKey!}",
+                          return SlideTransition(
+                            position: index % 2 == 0 ? Tween<Offset>(begin: Offset(-1, 0) , end: Offset(0,0) ).animate(_slideController)  : Tween<Offset>(begin: Offset(1, 0) , end: Offset(0,0) ).animate(_slideController),
+                            child: InkWell(
+                              onTap: () {
+                                context.read<PlayersCubit>().getPlayersData(
+                                    "${state.teamsData.result![index].teamKey!}",
+                                    "",
+                                    '');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Players(
+                                        teamId:
+                                            "${state.teamsData.result![index].teamKey!}",
+                                      ),
+                                    ));
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    image: DecorationImage(
+                                        onError: (exception, stackTrace) {
+                                          Image.asset('assets/images.png');
+                                        },
+                                        image: NetworkImage(state.teamsData
+                                                .result![index].teamLogo ??
+                                            'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'))),
+                                margin: const EdgeInsets.all(10),
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Text(
+                                      state.teamsData.result![index].teamName ??
+                                          '',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Roboto',
+                                          color: Color.fromARGB(255, 0, 0, 0)),
                                     ),
-                                  ));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  image: DecorationImage(
-                                      onError: (exception, stackTrace) {
-                                        Image.asset('assets/images.png');
-                                      },
-                                      image: NetworkImage(state.teamsData
-                                              .result![index].teamLogo ??
-                                          'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'))),
-                              margin: const EdgeInsets.all(10),
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Text(
-                                    state.teamsData.result![index].teamName ??
-                                        '',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Roboto',
-                                        color: Color.fromARGB(255, 0, 0, 0)),
                                   ),
                                 ),
                               ),
@@ -150,9 +166,22 @@ class TeamsScreen extends StatelessWidget {
   }
 }
 
-class TopScorersScreen extends StatelessWidget {
+class TopScorersScreen extends StatefulWidget {
   const TopScorersScreen({Key? key}) : super(key: key);
 
+  @override
+  State<TopScorersScreen> createState() => _TopScorersScreenState();
+}
+
+class _TopScorersScreenState extends State<TopScorersScreen> with TickerProviderStateMixin {
+  late AnimationController _slideController ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _slideController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
+    _slideController.forward() ; 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,24 +191,27 @@ class TopScorersScreen extends StatelessWidget {
             return ListView.builder(
               itemCount: state.topscorerData.result!.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  trailing: Icon(Icons.sports_soccer),
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000'),
-                  ),
-                  title: Text(
-                    state.topscorerData.result![index].playerName ?? "",
-                    // player['playerName'],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Roboto',
+                return SlideTransition(
+                  position: index % 2 == 0 ? Tween<Offset>(begin: Offset(-1, 0) , end: Offset(0,0) ).animate(_slideController)  : Tween<Offset>(begin: Offset(1, 0) , end: Offset(0,0) ).animate(_slideController),
+            child: ListTile(
+                    trailing: Icon(Icons.sports_soccer),
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000'),
                     ),
-                  ),
-                  subtitle: Text(
-                    '${(state.topscorerData.result![index].teamName ?? '')} - ${(state.topscorerData.result![index].goals ?? '')} Goals',
-                    style: TextStyle(
-                      fontFamily: 'Times New Roman',
+                    title: Text(
+                      state.topscorerData.result![index].playerName ?? "",
+                      // player['playerName'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Roboto',
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${(state.topscorerData.result![index].teamName ?? '')} - ${(state.topscorerData.result![index].goals ?? '')} Goals',
+                      style: TextStyle(
+                        fontFamily: 'Times New Roman',
+                      ),
                     ),
                   ),
                 );
@@ -188,7 +220,7 @@ class TopScorersScreen extends StatelessWidget {
           } else if (state is TopScorerLoading) {
             return Center(child: CircularProgressIndicator());
           } else {
-            return Center(child: Text("Error"));
+            return Center(child: Text("No players found " , style: TextStyle(fontSize: 30 , fontWeight:  FontWeight.w700),));
           }
         },
       ),

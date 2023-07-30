@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/data/cubit/CountriesCubit/countries_cubit.dart';
+import 'package:myapp/data/cubit/HomePageCubit/home_page_cubit.dart';
 import 'package:myapp/data/cubit/LeaguesCubit/leagues_cubit.dart';
 
 import 'package:myapp/data/cubit/OnBoardingConroller/on_boarding_controller_cubit.dart';
@@ -50,6 +51,8 @@ class MyApp extends StatelessWidget {
     FirebaseApi().getFCMToken();
     return MultiBlocProvider(
       providers: [
+        BlocProvider<HomePageCubit>(
+            create: (BuildContext context) => HomePageCubit()),
         BlocProvider<OnBoardingControllerCubit>(
             create: (BuildContext context) => OnBoardingControllerCubit()),
         BlocProvider<CountriesCubit>(

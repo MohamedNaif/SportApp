@@ -13,15 +13,18 @@ class PlayerScreen extends StatefulWidget {
   State<PlayerScreen> createState() => _PlayerScreenState();
 }
 
-class _PlayerScreenState extends State<PlayerScreen> with TickerProviderStateMixin {
-  late AnimationController _appearController ;
+class _PlayerScreenState extends State<PlayerScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _appearController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _appearController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
-    _appearController.forward() ; 
+    _appearController = AnimationController(
+        vsync: this, duration: (Duration(milliseconds: 2000)));
+    _appearController.forward();
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -98,13 +101,14 @@ class _PlayerScreenState extends State<PlayerScreen> with TickerProviderStateMix
                                   backgroundColor: Colors.grey[200],
                                   child: ClipOval(
                                     child: CachedNetworkImage(
-                                        imageUrl: state.playerData.result![index]
-                                                .playerImage ??
+                                        imageUrl: state.playerData
+                                                .result![index].playerImage ??
                                             'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000',
                                         progressIndicatorBuilder: (context, url,
                                                 downloadProgress) =>
                                             CircularProgressIndicator(
-                                                value: downloadProgress.progress),
+                                                value:
+                                                    downloadProgress.progress),
                                         errorWidget: (context, url, error) =>
                                             Image.asset('assets/images.png')),
                                   ),

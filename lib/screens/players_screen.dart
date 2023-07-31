@@ -16,15 +16,17 @@ class Players extends StatefulWidget {
   State<Players> createState() => _PlayersState();
 }
 
-class _PlayersState extends State<Players> with TickerProviderStateMixin{
-  late AnimationController _slideController ;
+class _PlayersState extends State<Players> with TickerProviderStateMixin {
+  late AnimationController _slideController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _slideController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
-    _slideController.forward() ; 
+    _slideController = AnimationController(
+        vsync: this, duration: (Duration(milliseconds: 2000)));
+    _slideController.forward();
   }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController searchPlayer = TextEditingController(text: '');
@@ -58,23 +60,29 @@ class _PlayersState extends State<Players> with TickerProviderStateMixin{
                   return ListView.builder(
                     itemCount: state.playerData.result!.length,
                     itemBuilder: (context, index) => SlideTransition(
-                  position: index % 2 == 0 ? Tween<Offset>(begin: Offset(-1, 0) , end: Offset(0,0) ).animate(_slideController)  : Tween<Offset>(begin: Offset(1, 0) , end: Offset(0,0) ).animate(_slideController),
+                      position: index % 2 == 0
+                          ? Tween<Offset>(
+                                  begin: Offset(-1, 0), end: Offset(0, 0))
+                              .animate(_slideController)
+                          : Tween<Offset>(
+                                  begin: Offset(1, 0), end: Offset(0, 0))
+                              .animate(_slideController),
                       child: ListTile(
                         onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PlayerScreen(
-                                teamId:
-                                    '${(state.playerData.result![index].teamKey!)}',
-                              ),
-                            ));
-                    
-                        context.read<PlayersCubit>().getPlayersData(
-                            "${state.playerData.result![index].teamKey!}",
-                            "${state.playerData.result![index].playerKey}",
-                            '');
-                      },
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PlayerScreen(
+                                  teamId:
+                                      '${(state.playerData.result![index].teamKey!)}',
+                                ),
+                              ));
+
+                          context.read<PlayersCubit>().getPlayersData(
+                              "${state.playerData.result![index].teamKey!}",
+                              "${state.playerData.result![index].playerKey}",
+                              '');
+                        },
                         trailing: Icon(Icons.sports_soccer),
                         leading: CircleAvatar(
                           child: ClipOval(
@@ -90,7 +98,7 @@ class _PlayersState extends State<Players> with TickerProviderStateMixin{
                                     Image.asset('assets/images.png')),
                           ),
                           // backgroundImage:
-                    
+
                           //  NetworkImage(state
                           //         .playerData.result![index].playerImage ??
                           //     'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000'),

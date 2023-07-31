@@ -55,15 +55,18 @@ class TeamsScreen extends StatefulWidget {
   State<TeamsScreen> createState() => _TeamsScreenState();
 }
 
-class _TeamsScreenState extends State<TeamsScreen> with TickerProviderStateMixin{
-  late AnimationController _slideController ;
+class _TeamsScreenState extends State<TeamsScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _slideController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _slideController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
-    _slideController.forward() ; 
+    _slideController = AnimationController(
+        vsync: this, duration: (Duration(milliseconds: 2000)));
+    _slideController.forward();
   }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController? search = TextEditingController(text: "");
@@ -100,7 +103,13 @@ class _TeamsScreenState extends State<TeamsScreen> with TickerProviderStateMixin
                                 crossAxisCount: 2),
                         itemBuilder: (context, index) {
                           return SlideTransition(
-                            position: index % 2 == 0 ? Tween<Offset>(begin: Offset(-1, 0) , end: Offset(0,0) ).animate(_slideController)  : Tween<Offset>(begin: Offset(1, 0) , end: Offset(0,0) ).animate(_slideController),
+                            position: index % 2 == 0
+                                ? Tween<Offset>(
+                                        begin: Offset(-1, 0), end: Offset(0, 0))
+                                    .animate(_slideController)
+                                : Tween<Offset>(
+                                        begin: Offset(1, 0), end: Offset(0, 0))
+                                    .animate(_slideController),
                             child: InkWell(
                               onTap: () {
                                 context.read<PlayersCubit>().getPlayersData(
@@ -173,15 +182,18 @@ class TopScorersScreen extends StatefulWidget {
   State<TopScorersScreen> createState() => _TopScorersScreenState();
 }
 
-class _TopScorersScreenState extends State<TopScorersScreen> with TickerProviderStateMixin {
-  late AnimationController _slideController ;
+class _TopScorersScreenState extends State<TopScorersScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _slideController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _slideController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
-    _slideController.forward() ; 
+    _slideController = AnimationController(
+        vsync: this, duration: (Duration(milliseconds: 2500)));
+    _slideController.forward();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,8 +204,12 @@ class _TopScorersScreenState extends State<TopScorersScreen> with TickerProvider
               itemCount: state.topscorerData.result!.length,
               itemBuilder: (BuildContext context, int index) {
                 return SlideTransition(
-                  position: index % 2 == 0 ? Tween<Offset>(begin: Offset(-1, 0) , end: Offset(0,0) ).animate(_slideController)  : Tween<Offset>(begin: Offset(1, 0) , end: Offset(0,0) ).animate(_slideController),
-            child: ListTile(
+                  position: index % 2 == 0
+                      ? Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+                          .animate(_slideController)
+                      : Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+                          .animate(_slideController),
+                  child: ListTile(
                     trailing: Icon(Icons.sports_soccer),
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(
@@ -220,7 +236,11 @@ class _TopScorersScreenState extends State<TopScorersScreen> with TickerProvider
           } else if (state is TopScorerLoading) {
             return Center(child: CircularProgressIndicator());
           } else {
-            return Center(child: Text("No players found " , style: TextStyle(fontSize: 30 , fontWeight:  FontWeight.w700),));
+            return Center(
+                child: Text(
+              "No players found ",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+            ));
           }
         },
       ),

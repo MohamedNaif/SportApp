@@ -14,15 +14,18 @@ class LeaguesScreen extends StatefulWidget {
   State<LeaguesScreen> createState() => _LeaguesScreenState();
 }
 
-class _LeaguesScreenState extends State<LeaguesScreen> with TickerProviderStateMixin {
-  late AnimationController _slideController ;
+class _LeaguesScreenState extends State<LeaguesScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _slideController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _slideController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
-    _slideController.forward() ; 
+    _slideController = AnimationController(
+        vsync: this, duration: (Duration(milliseconds: 2000)));
+    _slideController.forward();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,14 +45,18 @@ class _LeaguesScreenState extends State<LeaguesScreen> with TickerProviderStateM
               return ListView.builder(
                 itemCount: state.leaguesData.result!.length,
                 itemBuilder: (context, index) => SlideTransition(
-                  position: index % 2 == 0 ? Tween<Offset>(begin: Offset(-1, 0) , end: Offset(0,0) ).animate(_slideController)  : Tween<Offset>(begin: Offset(1, 0) , end: Offset(0,0) ).animate(_slideController),
+                  position: index % 2 == 0
+                      ? Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+                          .animate(_slideController)
+                      : Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+                          .animate(_slideController),
                   child: ListTile(
                     iconColor: Colors.white,
                     textColor: Colors.white,
                     title:
                         Text(state.leaguesData.result![index].leagueName ?? ""),
-                    subtitle:
-                        Text(state.leaguesData.result![index].countryName ?? ""),
+                    subtitle: Text(
+                        state.leaguesData.result![index].countryName ?? ""),
                     leading: Icon(Icons.sports_soccer),
                     trailing: Image(
                       image: NetworkImage(state
@@ -64,7 +71,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> with TickerProviderStateM
                     onTap: () {
                       context.read<TeamsCubit>().getTeams(
                           state.leaguesData.result![index].leagueKey!, "");
-                
+
                       context.read<TopScorerCubit>().getTopscorerData(
                           state.leaguesData.result![index].leagueKey!);
                       Navigator.push(

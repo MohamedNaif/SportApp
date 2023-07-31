@@ -13,14 +13,16 @@ class CountriesScreen extends StatefulWidget {
   State<CountriesScreen> createState() => _CountriesScreenState();
 }
 
-class _CountriesScreenState extends State<CountriesScreen> with TickerProviderStateMixin {
-  late AnimationController _slideController ;
+class _CountriesScreenState extends State<CountriesScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _slideController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _slideController = AnimationController(vsync: this , duration: ( Duration(milliseconds: 2500))) ;
-    _slideController.forward() ; 
+    _slideController = AnimationController(
+        vsync: this, duration: (Duration(milliseconds: 2000)));
+    _slideController.forward();
   }
 
   // void forward(){}
@@ -50,7 +52,11 @@ class _CountriesScreenState extends State<CountriesScreen> with TickerProviderSt
                     mainAxisSpacing: 20,
                     crossAxisCount: 2),
                 itemBuilder: (context, index) => SlideTransition(
-                  position: index % 2 == 0 ? Tween<Offset>(begin: Offset(-1, 0) , end: Offset(0,0) ).animate(_slideController)  : Tween<Offset>(begin: Offset(1, 0) , end: Offset(0,0) ).animate(_slideController),
+                  position: index % 2 == 0
+                      ? Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+                          .animate(_slideController)
+                      : Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+                          .animate(_slideController),
                   child: InkWell(
                     onTap: () {
                       context.read<LeaguesCubit>().getLeaguesData(

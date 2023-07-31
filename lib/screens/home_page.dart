@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:myapp/data/cubit/HomePageCubit/home_page_cubit.dart';
 import 'package:myapp/global/categories.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../data/cubit/CountriesCubit/countries_cubit.dart';
 import 'coming_soon.dart';
 import 'countries_screen.dart';
 
@@ -86,6 +87,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           child: InkWell(
                             onTap: () {
                               if (i == 0) {
+                                context
+                                    .read<CountriesCubit>()
+                                    .getCountriesDate();
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

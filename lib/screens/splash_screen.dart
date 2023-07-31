@@ -29,28 +29,29 @@ class _SplashScreenState extends State<SplashScreen>
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     Future.delayed(const Duration(seconds: 5), () {
       // context.read<NewsAppCubit>().getNewsApp();
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: ((context) => ONBoardingScreen()),
-      //   ),
-      // );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: ((context) =>
+              initScreen != 0 ? ONBoardingScreen() : HomePage()),
+        ),
+      );
       //================================================
-      if (MyApp().showHome == false) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: ((context) => ONBoardingScreen()),
-          ),
-        );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: ((context) => HomePage()),
-          ),
-        );
-      }
+      // if (MyApp().showHome == false) {
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: ((context) => ONBoardingScreen()),
+      //     ),
+      //   );
+      // } else {
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: ((context) => HomePage()),
+      //     ),
+      //   );
+      // }
       //=================================================
     });
   }

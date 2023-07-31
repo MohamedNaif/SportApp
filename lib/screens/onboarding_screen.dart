@@ -72,6 +72,12 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
     });
   }
 
+  _storeOnBoardingInfo() async {
+    int initScreen = 0;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('onBoard', initScreen);
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenH = MediaQuery.of(context).size.height;
@@ -178,8 +184,9 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
                     ),
                     InkWell(
                       onTap: () async {
-                        final prefs = await SharedPreferences.getInstance();
-                        prefs.setBool('showHome', true);
+                        await _storeOnBoardingInfo();
+                        // final prefs = await SharedPreferences.getInstance();
+                        // prefs.setBool('showHome', true);
 
                         // setOnboardingShown();
                         _timer?.cancel();

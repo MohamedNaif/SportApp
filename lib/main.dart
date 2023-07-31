@@ -32,15 +32,15 @@ import 'screens/onboarding_screen.dart';
 //   return prefs.getBool('isOnboardingShown') ?? false;
 // }
 //=========================================
-
+int? initScreen;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  final prefs = await SharedPreferences.getInstance();
-  final showHome = prefs.getBool('showHome') ?? false;
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  initScreen = (prefs.getInt('onBoard'));
 
-  runApp(MyApp(showHome: showHome));
+  runApp(MyApp());
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -50,9 +50,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class MyApp extends StatelessWidget {
-  final bool? showHome;
-
-  MyApp({super.key, this.showHome});
+  MyApp({
+    super.key,
+  });
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

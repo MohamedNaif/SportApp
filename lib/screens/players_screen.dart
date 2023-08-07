@@ -23,7 +23,7 @@ class _PlayersState extends State<Players> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     _slideController = AnimationController(
-        vsync: this, duration: (Duration(milliseconds: 2000)));
+        vsync: this, duration: (Duration(milliseconds: 1000)));
     _slideController.forward();
   }
 

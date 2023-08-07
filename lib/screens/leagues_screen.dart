@@ -22,7 +22,7 @@ class _LeaguesScreenState extends State<LeaguesScreen>
     // TODO: implement initState
     super.initState();
     _slideController = AnimationController(
-        vsync: this, duration: (Duration(milliseconds: 2000)));
+        vsync: this, duration: (const Duration(milliseconds: 2000)));
     _slideController.forward();
   }
 
@@ -30,15 +30,15 @@ class _LeaguesScreenState extends State<LeaguesScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(24, 25, 40, 1),
-        title: Text('Leagues'),
+        backgroundColor: const Color.fromRGBO(24, 25, 40, 1),
+        title: const Text('Leagues'),
       ),
       body: Container(
         color: const Color.fromRGBO(24, 25, 40, 1),
         child: BlocBuilder<LeaguesCubit, LeaguesState>(
           builder: (context, state) {
             if (state is LeaguesLoading) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (state is LeaguesSucceed) {
@@ -46,9 +46,13 @@ class _LeaguesScreenState extends State<LeaguesScreen>
                 itemCount: state.leaguesData.result!.length,
                 itemBuilder: (context, index) => SlideTransition(
                   position: index % 2 == 0
-                      ? Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+                      ? Tween<Offset>(
+                              begin: const Offset(-1, 0),
+                              end: const Offset(0, 0))
                           .animate(_slideController)
-                      : Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+                      : Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: const Offset(0, 0))
                           .animate(_slideController),
                   child: ListTile(
                     iconColor: Colors.white,
@@ -57,16 +61,21 @@ class _LeaguesScreenState extends State<LeaguesScreen>
                         Text(state.leaguesData.result![index].leagueName ?? ""),
                     subtitle: Text(
                         state.leaguesData.result![index].countryName ?? ""),
-                    leading: Icon(Icons.sports_soccer),
-                    trailing: Image(
-                      image: NetworkImage(state
-                              .leaguesData.result![index].leagueLogo ??
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBUWl3EwrWSt-3sQKy1XDdtueBDqjo_6DKMQ&usqp=CAU"),
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset('assets/images.png');
-                      },
-                      width: 75,
-                      height: 75,
+                    leading: const Icon(Icons.sports_soccer),
+                    trailing: ClipOval(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 7,
+                        height: MediaQuery.of(context).size.height / 5,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.transparent,
+                        ),
+                        child: Image.network(
+                            fit: BoxFit.fill,
+                            // scale: 0.5,
+                            state.leaguesData.result![index].leagueLogo ??
+                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBUWl3EwrWSt-3sQKy1XDdtueBDqjo_6DKMQ&usqp=CAU"),
+                      ),
                     ),
                     onTap: () {
                       context.read<TeamsCubit>().getTeams(
@@ -88,7 +97,7 @@ class _LeaguesScreenState extends State<LeaguesScreen>
                 ),
               );
             } else {
-              return Center(
+              return const Center(
                 child: Text("error"),
               );
             }

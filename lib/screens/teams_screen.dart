@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/data/cubit/Playerscubit/players_cubit.dart';
 import 'package:myapp/data/cubit/TeamsCubit/teams_cubit.dart';
 import 'package:myapp/data/cubit/Topscorer/top_scorer_cubit.dart';
@@ -63,7 +64,7 @@ class _TeamsScreenState extends State<TeamsScreen>
     // TODO: implement initState
     super.initState();
     _slideController = AnimationController(
-        vsync: this, duration: (Duration(milliseconds: 2000)));
+        vsync: this, duration: (const Duration(milliseconds: 1000)));
     _slideController.forward();
   }
 
@@ -72,15 +73,45 @@ class _TeamsScreenState extends State<TeamsScreen>
     TextEditingController? search = TextEditingController(text: "");
     return Scaffold(
       body: Container(
-        color: Colors.white10,
+        color: const Color.fromRGBO(24, 25, 40, 1),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: TextField(
+              child: TextFormField(
+                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                cursorColor: Color.fromARGB(255, 0, 0, 0),
                 controller: search,
+                // decoration: InputDecoration(
+                //   contentPadding: EdgeInsets.symmetric(vertical: 0),
+                //   border: OutlineInputBorder(
+                //     borderRadius: BorderRadius.circular(30),
+                //   ),
+                //   focusedBorder: OutlineInputBorder(
+                //     borderRadius: BorderRadius.circular(30),
+                //     borderSide: const BorderSide(
+                //       color: Colors.black,
+                //     ),
+                //   ),
+                //   filled: true,
+                //   fillColor: Colors.white,
+                //   suffixIcon: InkWell(
+                //       onTap: () => context
+                //           .read<TeamsCubit>()
+                //           .getTeams(widget.leagueKey, search.text),
+                //       child: const Icon(Icons.search)),
+                //   hintText: "Search..",
+                //   hintStyle: GoogleFonts.nunito(
+                //       color: Colors.black,
+                //       fontSize: 13,
+                //       fontWeight: FontWeight.w600),
+                // ),
                 decoration: InputDecoration(
+                  focusColor: Color.fromARGB(255, 0, 0, 0),
+                  hoverColor: Color.fromARGB(255, 0, 0, 0),
+                  iconColor: Color.fromARGB(255, 0, 0, 0),
                   hintText: 'Search for a team',
+                  hintStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                   suffixIcon: InkWell(
                       onTap: () => context
                           .read<TeamsCubit>()
@@ -89,6 +120,8 @@ class _TeamsScreenState extends State<TeamsScreen>
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  filled: true,
+                  fillColor: Colors.white,
                 ),
               ),
             ),
@@ -105,10 +138,12 @@ class _TeamsScreenState extends State<TeamsScreen>
                           return SlideTransition(
                             position: index % 2 == 0
                                 ? Tween<Offset>(
-                                        begin: Offset(-1, 0), end: Offset(0, 0))
+                                        begin: const Offset(-1, 0),
+                                        end: const Offset(0, 0))
                                     .animate(_slideController)
                                 : Tween<Offset>(
-                                        begin: Offset(1, 0), end: Offset(0, 0))
+                                        begin: const Offset(1, 0),
+                                        end: const Offset(0, 0))
                                     .animate(_slideController),
                             child: InkWell(
                               onTap: () {
@@ -127,7 +162,9 @@ class _TeamsScreenState extends State<TeamsScreen>
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    shape: BoxShape.circle,
+                                    color: Color.fromARGB(255, 14, 15, 24),
+                                    // color: Color.fromARGB(255, 255, 255, 255),
                                     image: DecorationImage(
                                         onError: (exception, stackTrace) {
                                           Image.asset('assets/images.png');
@@ -136,20 +173,6 @@ class _TeamsScreenState extends State<TeamsScreen>
                                                 .result![index].teamLogo ??
                                             'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'))),
                                 margin: const EdgeInsets.all(10),
-                                child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(6.0),
-                                    child: Text(
-                                      state.teamsData.result![index].teamName ??
-                                          '',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Roboto',
-                                          color: Color.fromARGB(255, 0, 0, 0)),
-                                    ),
-                                  ),
-                                ),
                               ),
                             ),
                           );
@@ -190,7 +213,7 @@ class _TopScorersScreenState extends State<TopScorersScreen>
     // TODO: implement initState
     super.initState();
     _slideController = AnimationController(
-        vsync: this, duration: (Duration(milliseconds: 2500)));
+        vsync: this, duration: (const Duration(milliseconds: 1000)));
     _slideController.forward();
   }
 
@@ -205,27 +228,31 @@ class _TopScorersScreenState extends State<TopScorersScreen>
               itemBuilder: (BuildContext context, int index) {
                 return SlideTransition(
                   position: index % 2 == 0
-                      ? Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+                      ? Tween<Offset>(
+                              begin: const Offset(-1, 0),
+                              end: const Offset(0, 0))
                           .animate(_slideController)
-                      : Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+                      : Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: const Offset(0, 0))
                           .animate(_slideController),
                   child: ListTile(
-                    trailing: Icon(Icons.sports_soccer),
-                    leading: CircleAvatar(
+                    trailing: const Icon(Icons.sports_soccer),
+                    leading: const CircleAvatar(
                       backgroundImage: NetworkImage(
                           'https://img.freepik.com/premium-vector/football-player-abstract-shadow-art_9955-1139.jpg?w=2000'),
                     ),
                     title: Text(
                       state.topscorerData.result![index].playerName ?? "",
                       // player['playerName'],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Roboto',
                       ),
                     ),
                     subtitle: Text(
                       '${(state.topscorerData.result![index].teamName ?? '')} - ${(state.topscorerData.result![index].goals ?? '')} Goals',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Times New Roman',
                       ),
                     ),
@@ -234,9 +261,9 @@ class _TopScorersScreenState extends State<TopScorersScreen>
               },
             );
           } else if (state is TopScorerLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else {
-            return Center(
+            return const Center(
                 child: Text(
               "No players found ",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),

@@ -52,7 +52,7 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 4), (Timer timer) {
+    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
       if (_currentPage < pageNum + 1) {
         _currentPage++;
         _pageController.animateToPage(
@@ -190,7 +190,7 @@ class _ONBoardingScreenState extends State<ONBoardingScreen> {
 
                         // setOnboardingShown();
                         _timer?.cancel();
-                        context.read<CountriesCubit>().getCountriesDate();
+                        // context.read<CountriesCubit>().getCountriesDate();
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

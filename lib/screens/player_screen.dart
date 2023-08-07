@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/global/columnPlayer.dart';
 import 'package:myapp/screens/players_screen.dart';
 
 import '../data/cubit/Playerscubit/players_cubit.dart';
@@ -144,78 +145,29 @@ class _PlayerScreenState extends State<PlayerScreen>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.sports_soccer,
-                                        size: 36.0,
-                                        color: Colors.blue[700],
-                                      ),
-                                      SizedBox(height: 8.0),
-                                      Text(
-                                        ' ${(state.playerData.result![index].playerGoals ?? '')}',
-                                        style: const TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'Roboto',
-                                        ),
-                                      ),
-                                    ],
+                                  ColumnPlayer(
+                                    icon: Icons.sports_soccer,
+                                    color: Colors.blue[700],
+                                    text:
+                                        ' ${(state.playerData.result![index].playerGoals ?? '0')}',
                                   ),
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        // Icons.sports_bar_sharp,
-                                        Icons.sports_baseball,
-                                        size: 36.0,
-                                        color: Colors.yellow[600],
-                                      ),
-                                      SizedBox(height: 8.0),
-                                      Text(
-                                        ('${(state.playerData.result![index].playerAssists ?? '')}'),
-                                        style: const TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'Roboto',
-                                        ),
-                                      ),
-                                    ],
+                                  ColumnPlayer(
+                                    icon: Icons.sports_baseball,
+                                    color: Colors.yellow[600],
+                                    text:
+                                        '${(state.playerData.result![index].playerAssists ?? '0')}',
                                   ),
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.warning_rounded,
-                                        size: 36.0,
-                                        color: Colors.yellow[800],
-                                      ),
-                                      SizedBox(height: 8.0),
-                                      Text(
-                                        state.playerData.result![index]
-                                                .playerYellowCards ??
-                                            '',
-                                        style: const TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'Roboto',
-                                        ),
-                                      ),
-                                    ],
+                                  ColumnPlayer(
+                                    icon: Icons.warning_rounded,
+                                    color: Colors.yellow[800],
+                                    text:
+                                        '${(state.playerData.result![index].playerYellowCards ?? '0')}',
                                   ),
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.cancel_rounded,
-                                        size: 36.0,
-                                        color: Colors.red[700],
-                                      ),
-                                      SizedBox(height: 8.0),
-                                      Text(
-                                        state.playerData.result![index]
-                                                .playerRedCards ??
-                                            '',
-                                        style: const TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'Roboto',
-                                        ),
-                                      ),
-                                    ],
+                                  ColumnPlayer(
+                                    icon: Icons.cancel_rounded,
+                                    color: Colors.red[700],
+                                    text:
+                                        '${(state.playerData.result![index].playerRedCards ?? '0')}',
                                   ),
                                 ],
                               ),

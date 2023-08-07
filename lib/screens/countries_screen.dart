@@ -21,7 +21,7 @@ class _CountriesScreenState extends State<CountriesScreen>
     // TODO: implement initState
     super.initState();
     _slideController = AnimationController(
-        vsync: this, duration: (Duration(milliseconds: 2000)));
+        vsync: this, duration: (const Duration(milliseconds: 1000)));
     _slideController.forward();
   }
 
@@ -30,32 +30,36 @@ class _CountriesScreenState extends State<CountriesScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(24, 25, 40, 1),
-        title: Text('Countries'),
+        backgroundColor: const Color.fromRGBO(24, 25, 40, 1),
+        title: const Text('Countries'),
       ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        color: Color.fromRGBO(24, 25, 40, 1),
+        color: const Color.fromRGBO(24, 25, 40, 1),
         child: BlocBuilder<CountriesCubit, CountriesState>(
           builder: (context, state) {
             if (state is CountriesError) {
-              return Center(
+              return const Center(
                 child: Text(" Error "),
               );
             } else if (state is CountriesSucceed) {
               return GridView.builder(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 itemCount: state.countriesData.result!.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 30,
                     mainAxisSpacing: 20,
                     crossAxisCount: 2),
                 itemBuilder: (context, index) => SlideTransition(
                   position: index % 2 == 0
-                      ? Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+                      ? Tween<Offset>(
+                              begin: const Offset(-1, 0),
+                              end: const Offset(0, 0))
                           .animate(_slideController)
-                      : Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+                      : Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: const Offset(0, 0))
                           .animate(_slideController),
                   child: InkWell(
                     onTap: () {
@@ -64,23 +68,27 @@ class _CountriesScreenState extends State<CountriesScreen>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LeaguesScreen(),
+                            builder: (context) => const LeaguesScreen(),
                           ));
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        onError: (exception, stackTrace) {
-                          Image.asset('assets/images.png');
-                        },
-                        fit: BoxFit.fill,
-                        image: NetworkImage(
-                            state.countriesData.result![index].countryLogo ??
-                                "assets/style.jpg"),
-                      )),
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height / 7,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                state.countriesData.result![index]
+                                        .countryLogo ??
+                                    "assets/style.jpg",
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
                           state.countriesData.result![index].countryName!,
                           style: const TextStyle(
                             color: Colors.white,
@@ -88,13 +96,13 @@ class _CountriesScreenState extends State<CountriesScreen>
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
               );
             } else {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
           },
         ),
